@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home'
+import { MovieList } from './components/MovieList';
 import "./App.css";
 
 export default class App extends Component {
@@ -11,6 +12,7 @@ export default class App extends Component {
     return (
       <Layout>
         <Route exact path='/' component={Home} />
+        <Route path='/movieList' component={MovieList} />
       </Layout>
     );
   }
