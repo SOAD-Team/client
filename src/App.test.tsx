@@ -1,10 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import App from './App';
 
 describe('App', () => {
   it('Unit Test Works', () => {
-    expect(true === true);
+    const val = true;
+    expect(val);
   });
 })
 
