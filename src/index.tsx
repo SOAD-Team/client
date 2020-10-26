@@ -4,14 +4,14 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import registerServiceWorker from './serviceWorker';
+import * as Constants from './constants'
 
-const baseUrl = '/';
-const rootElement = document.getElementById('root');
+console.log('API_URL => ', Constants.apiUrl);
 
 ReactDOM.render(
-  <BrowserRouter basename={baseUrl}>
+  <BrowserRouter basename={Constants.baseUrl}>
     <App />
   </BrowserRouter>,
-  rootElement);
+  Constants.rootElement);
 
 registerServiceWorker();

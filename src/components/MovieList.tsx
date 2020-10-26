@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as Constants from './../constants'
 
 export class MovieList extends Component {
   static displayName = MovieList.name;
@@ -34,7 +35,7 @@ export class MovieList extends Component {
   }
 
   async populateData() {
-    const response = await fetch('https://my-movie-server.azurewebsites.net/movie');
+    const response = await fetch(Constants.apiUrl +  'movie');
     const data = await response.json();
     this.setState({ forecasts: data, loading: false });
   }
