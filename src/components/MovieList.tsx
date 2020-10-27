@@ -27,7 +27,7 @@ export class MovieList extends Component {
 
     return (
       <div>
-        <h1 id="tabelLabel" >Movie List</h1>
+        <h1 id="tableLabel" >Movie List</h1>
         <p>This component demonstrates fetching data from the server.</p>
         {contents}
       </div>

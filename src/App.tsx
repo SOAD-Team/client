@@ -4,6 +4,7 @@ import { Layout } from './components/core/layout/Layout';
 import { Home } from './components/home/Home'
 import { MovieList } from './components/MovieList';
 import "./App.css";
+import MovieCreator from "./components/movie-creation/movie-creator/MovieCreator";
 
 export default class App extends Component {
   static displayName = App.name;
@@ -12,7 +13,7 @@ export default class App extends Component {
     return (
       <Layout>
         <Route exact path='/' component={Home} />
-        <Route path='/movieList' component={MovieList} />
+        <Route path='/movieList' component={MovieCreator} />
       </Layout>
     );
   }
