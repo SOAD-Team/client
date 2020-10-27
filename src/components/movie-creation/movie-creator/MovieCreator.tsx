@@ -52,81 +52,90 @@ export default class MovieCreator extends Component {
 
   handleChangeName(event) {
     this.setState({
+      ...this.state,
       value: {
         ...this.state.value,
-        name: event.target.value.name
+        name: event.target.value
       }
     })
   }
 
   handleChangeYear(event) {
     this.setState({
+      ...this.state,
       value: {
         ...this.state.value,
-        year: event.target.value.year
+        year: event.target.value
       }
     })
   }
 
   handleChangeGenre(event) {
     this.setState({
+      ...this.state,
       value: {
         ...this.state.value,
-        idGenre: event.target.value.idGenre
+        idGenre: event.target.value
       }
     })
   }
 
   handleChangeLanguage(event) {
     this.setState({
+      ...this.state,
       value: {
         ...this.state.value,
-        idLanguage: event.target.value.idLanguage
+        idLanguage: event.target.value
       }
     })
   }
 
   handleChangeStyle(event) {
     this.setState({
+      ...this.state,
       value: {
         ...this.state.value,
-        idStyle: event.target.value.idStyle
+        idStyle: event.target.value
       }
     })
   }
 
   handleChangePlatFav(event) {
     this.setState({
+      ...this.state,
       value: {
         ...this.state.value,
-        platFav: event.target.value.platFav
+        platFav: event.target.value
       }
     })
   }
 
   handleChangeImage(event) {
     this.setState({
+      ...this.state,
       value: {
         ...this.state.value,
-        image: { objectImage: event.target.value.objectImage }
+        image: { objectImage: event.target.value }
       }
     })
   }
 
   handleChangeMetaScore(event) {
     this.setState({
+      ...this.state,
       value: {
         ...this.state.value,
-        metaScore: event.target.value.metaScore
-      }
+        metaScore: event.target.value
+      },
     })
   }
 
   handleChangeImdb(event) {
     this.setState({
+      ...this.state,
       value: {
         ...this.state.value,
-        imdb: event.target.value.imdb
+        imdb: event.target.value
       }
     })
   }
