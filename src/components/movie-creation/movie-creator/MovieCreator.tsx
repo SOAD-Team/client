@@ -26,7 +26,7 @@ export default class MovieCreator extends Component {
 
     this.state = {
       value: MovieData.Empty,
-      loading: false,
+      loading: true,
     };
   }
 
@@ -35,9 +35,9 @@ export default class MovieCreator extends Component {
   }
 
   async loadData() {
-    const genres = await MovieService.getGenres();
-    const languages = await MovieService.getLanguages();
-    const styles = await MovieService.getStyles();
+    const genres: Genre[] = await (await MovieService.getGenres()).data;
+    const languages: Language[] = await (await MovieService.getLanguages()).data;
+    const styles: Style[] = await (await MovieService.getStyles()).data;
 
     this.genres = genres.map(genre => {
       const data = { value: genre, label: genre.name };
@@ -127,7 +127,7 @@ export default class MovieCreator extends Component {
 
   handleChange = (event: any) => {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === 'checkbox' ? target.checked : target.type === 'number' ? parseInt(target.value) : target.value;
     const name = target.name;
     const stateValue: IValue = {
       ...this.state,
@@ -143,7 +143,7 @@ export default class MovieCreator extends Component {
     const movie: MovieData = this.state.value;
     if (Validators.validateMovie(movie)) {
       MovieService.createMovie(movie).then(res => {
-        console.log(res);
+        console.log(res.data);
       });
     }
     event.preventDefault();
@@ -179,7 +179,7 @@ export default class MovieCreator extends Component {
             <Col md={6}>
               <FormGroup>
                 <Label>Year:</Label>
-                <Input name='year' id="year" type="number" min="1900" max="2099" value={parseInt(this.state.value.year)} onChange={this.handleChange} required />
+                <Input name='year' id="year" type="number" min="1900" max="2099" value={this.state.value.year} onChange={this.handleChange} required />
               </FormGroup>
             </Col>
           </Row>

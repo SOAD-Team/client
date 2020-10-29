@@ -3,25 +3,19 @@ import { Language } from "../models/language";
 import { MovieData } from "../models/movie-data";
 import { Style } from "../models/style";
 import * as Constants from '../constants';
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 export class MovieService {
   private static URL = `${Constants.apiUrl}movie`;
 
-  static getStyles(): Promise<Style[]> {
-    return new Promise((resolve) => {
-      resolve([{ idStyle: 1, name: 'NoMoreBanana' }])
-    });
+  public static async getStyles(): Promise<AxiosResponse<Style[]>> {
+    return axios.get(`${this.URL}/styles`);
   }
-  public static getGenres(): Promise<Genre[]> {
-    return new Promise((resolve) => {
-      resolve([{ idGenre: 1, name: 'Banana' }])
-    });
+  public static async getGenres(): Promise<AxiosResponse<Genre[]>> {
+    return axios.get(`${this.URL}/genres`);
   }
-  public static getLanguages(): Promise<Language[]> {
-    return new Promise((resolve) => {
-      resolve([{ idLanguage: 1, name: 'NotBanana' }]);
-    });
+  public static getLanguages(): Promise<AxiosResponse<Language[]>> {
+    return axios.get(`${this.URL}/languages`);
   }
   public static getMovies(): Promise<MovieData[]> {
     return
@@ -29,7 +23,8 @@ export class MovieService {
   public static getMovieById(id: number): Promise<MovieData> {
     return;
   }
-  public static createMovie(movie: MovieData): Promise<MovieData> {
+  public static createMovie(movie: MovieData): Promise<AxiosResponse<MovieData>> {
+    console.log(movie);
     return axios.post(this.URL, movie);
   }
   public static updateMovieById(id: number): Promise<MovieData> {
