@@ -7,6 +7,7 @@ import { ILanguage } from '../../../models/language';
 import { IStyle } from '../../../models/style';
 import CreatableSelect from 'react-select/creatable';
 import { Media, Row, Col, Form, FormGroup, Label, Input, Button, CustomInput, Jumbotron } from 'reactstrap';
+import { Validators } from '../../../helpers/validators';
 
 interface IValue {
   value: MovieData, loading: boolean
@@ -113,12 +114,10 @@ export default class MovieCreator extends Component {
     valueList.length = 0;
   }
 
-  handleInputSelectionChange = (inputValue: any, actionMeta: any) => {
-    // Check Spellings
-    // console.group('Input Changed');
-    // console.log(inputValue);
-    // console.log(`action: ${actionMeta.action}`);
-    // console.groupEnd();
+  handleInputSelectionChange = (inputValue: string, actionMeta: any) => {
+    if(inputValue)
+      inputValue = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
+    return inputValue;
   };
 
   handleChange = (event: any) => {
@@ -135,10 +134,16 @@ export default class MovieCreator extends Component {
     this.setState(stateValue);
   }
 
-  handleSubmit =(event) => {
-    console.log(this.state.value);
-    alert('A movie was submitted: ' + this.state.value.name);
+  handleSubmit = (event) => {
+    const movie: MovieData = this.state.value;
+    if(Validators.validateMovie(movie)){
+      alert('A movie was submitted: ' + movie.name);
+    }
     event.preventDefault();
+  }
+
+  notEmpty(list: any[]): boolean {
+    return list.length > 0;
   }
 
   render() {
@@ -161,13 +166,13 @@ export default class MovieCreator extends Component {
             <Col md={6}>
               <FormGroup>
                 <Label>Title:</Label>
-                <Input name='name' id="name" type="text" value={this.state.value.name} onChange={this.handleChange} />
+                <Input name='name' id="name" type="text" value={this.state.value.name} onChange={this.handleChange} required />
               </FormGroup>
             </Col>
             <Col md={6}>
               <FormGroup>
                 <Label>Year:</Label>
-                <Input name='year' id="year" type="number" min="1900" max="2099" value={parseInt(this.state.value.year)} onChange={this.handleChange} />
+                <Input name='year' id="year" type="number" min="1900" max="2099" value={parseInt(this.state.value.year)} onChange={this.handleChange} required />
               </FormGroup>
             </Col>
           </Row>
@@ -229,13 +234,13 @@ export default class MovieCreator extends Component {
           <Row form>
             <Col md={3}>
               <FormGroup>
-                <Media height="275" width="230" id="image" src={this.state.value.image.url} alt="Generic placeholder image"/>
+                <Media height="275" width="230" id="image" src={this.state.value.image.url} alt="Generic placeholder image" />
               </FormGroup>
             </Col>
             <Col md={9}>
               <FormGroup>
                 <Label>Image:</Label>
-                <CustomInput type="file" onChange={this.handleImage} id="imageUp" name='image'  />
+                <CustomInput type="file" onChange={this.handleImage} id="imageUp" name='image' required />
               </FormGroup>
             </Col>
           </Row>
