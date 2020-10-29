@@ -4,6 +4,7 @@ import { Layout } from './components/core/layout/Layout';
 import { Home } from './components/home/Home'
 import "./App.css";
 import MovieCreator from "./components/movie-creation/movie-creator/MovieCreator";
+import Register from "./components/register/Register";
 
 export default class App extends Component {
   static displayName = App.name;
