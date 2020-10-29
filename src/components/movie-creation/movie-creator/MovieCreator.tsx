@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import './MovieCreator.css'
 import { MovieData } from '../../../models/movie-data';
-import { IGenre } from '../../../models/genre';
 import { MovieService } from '../../../services/movieService'
-import { ILanguage } from '../../../models/language';
-import { IStyle } from '../../../models/style';
+import { Language } from '../../../models/language';
+import { Style } from '../../../models/style';
 import CreatableSelect from 'react-select/creatable';
 import { Media, Row, Col, Form, FormGroup, Label, Input, Button, CustomInput, Jumbotron } from 'reactstrap';
 import { Validators } from '../../../helpers/validators';
+import { IOption } from '../../shared/IOption';
+import { Genre } from '../../../models/genre';
+import { IData } from '../../../models/data';
 
 interface IValue {
   value: MovieData, loading: boolean
@@ -15,16 +17,16 @@ interface IValue {
 export default class MovieCreator extends Component {
 
   state: IValue;
-  genres: { value: IGenre, label: string }[];
-  languages: { value: ILanguage, label: string }[];
-  styles: { value: IStyle, label: string }[];
+  genres: IOption<Genre>[];
+  languages: IOption<Language>[];
+  styles: IOption<Style>[];
 
   constructor(props) {
     super(props);
 
     this.state = {
       value: MovieData.Empty,
-      loading: true
+      loading: false,
     };
   }
 
@@ -68,54 +70,57 @@ export default class MovieCreator extends Component {
     })
   }
 
-  handleSelectionChange = (newValue: { value: any, label: string }[], actionMeta: any, valueList: any[]) => {
+  handleSelectionChange = (newValue: IOption<IData>[], actionMeta: any, movieList: IData[]) => {
     switch (actionMeta.action) {
       case 'clear':
-        this.handleClear(valueList);
+        this.handleClear(movieList);
         break;
       case 'create-option':
-        this.handleCreateOption(newValue, valueList);
+        this.handleCreateOption(newValue, movieList);
         break;
       case 'select-option':
-        this.handleSelectOption(newValue, valueList);
+        this.handleSelectOption(newValue, movieList);
         break;
       case 'remove-value':
-        this.handleRemoveValue(newValue, valueList);
+        this.handleRemoveValue(newValue, movieList);
         break;
     }
   };
 
-  handleRemoveValue(newValue: { value: any, label: string }[], valueList: any[]) {
+  handleRemoveValue(newValue: IOption<IData>[], movieList: IData[]) {
     if (!newValue)
-      this.handleClear(valueList);
+      this.handleClear(movieList);
     else {
-      let newValueList = [];
-      valueList.forEach(element => {
-        if (newValue.find(val => val.label === element.label))
+      let newValueList: IData[] = [];
+      movieList.forEach(element => {
+        if (newValue.find(val => val.label === element.name)) {
           newValueList.push(element);
+        }
       });
-      this.handleClear(valueList);
+      this.handleClear(movieList);
       newValueList.forEach(val => {
-        valueList.push(val);
+        movieList.push(val);
       })
     }
   }
 
-  handleSelectOption(newValue: { value: any, label: string }[], valueList: any[]) {
-    valueList.push(newValue.slice(-1)[0]);
+  handleSelectOption(newValue: IOption<IData>[], movieList: IData[]) {
+    movieList.push(newValue.slice(-1)[0].value);
+
   }
 
-  handleCreateOption(newValue: { value: any, label: string }[], valueList: any[]) {
-    const val = newValue.slice(-1)[0]
-    valueList.push({ label: val.label, value: null });
+  handleCreateOption(newValue: IOption<IData>[], movieList: IData[]) {
+    const option = newValue.slice(-1)[0]
+    const val: IData = { name: option.label };
+    movieList.push(val);
   }
 
-  handleClear(valueList: any[]) {
-    valueList.length = 0;
+  handleClear(movieList: IData[]) {
+    movieList.length = 0;
   }
 
   handleInputSelectionChange = (inputValue: string, actionMeta: any) => {
-    if(inputValue)
+    if (inputValue)
       inputValue = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
     return inputValue;
   };
@@ -136,8 +141,10 @@ export default class MovieCreator extends Component {
 
   handleSubmit = (event) => {
     const movie: MovieData = this.state.value;
-    if(Validators.validateMovie(movie)){
-      alert('A movie was submitted: ' + movie.name);
+    if (Validators.validateMovie(movie)) {
+      MovieService.createMovie(movie).then(res => {
+        console.log(res);
+      });
     }
     event.preventDefault();
   }

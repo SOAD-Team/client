@@ -12,7 +12,7 @@ export class Validators{
             val = false;
         }
         else if(this.validateEmpty(movie.styles)){
-            alert('Please Choose a Genre')
+            alert('Please Choose a Style')
             val = false;
         }
         return val;

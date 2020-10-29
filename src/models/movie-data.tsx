@@ -1,4 +1,7 @@
+import { Genre } from "./genre";
 import { Image } from "./image";
+import { Language } from "./language";
+import { Style } from "./style";
 
 export class MovieData {
     constructor(
@@ -7,11 +10,11 @@ export class MovieData {
         public registerDate: Date = new Date(),
         public name: string = '',
         public year: string = '1900',
-        public genres: number[] = [],
-        public languages: number[] = [],
+        public genres: Genre[] = [],
+        public languages: Language[] = [],
         public platFav: boolean = false,
         public image: Image = Image.Empty,
-        public styles: number[] = [],
+        public styles: Style[] = [],
         public metaScore?: number,
         public imdb?: number) { }
 
