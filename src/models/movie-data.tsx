@@ -7,11 +7,11 @@ export class MovieData {
         public registerDate: Date = new Date(),
         public name: string = '',
         public year: string = '1900',
-        public idGenre: number = 0,
-        public idLanguage: number = 0,
+        public genres: number[] = [],
+        public languages: number[] = [],
         public platFav: boolean = false,
         public image: Image = Image.Empty,
-        public idStyle: number = 0,
+        public styles: number[] = [],
         public metaScore?: number,
         public imdb?: number) { }
 

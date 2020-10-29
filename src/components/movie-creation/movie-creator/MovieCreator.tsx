@@ -5,14 +5,18 @@ import { IGenre } from '../../../models/genre';
 import { MovieService } from '../../../services/movieService'
 import { ILanguage } from '../../../models/language';
 import { IStyle } from '../../../models/style';
+import CreatableSelect from 'react-select/creatable';
 import { Media, Row, Col, Form, FormGroup, Label, Input, Button, CustomInput, Jumbotron } from 'reactstrap';
 
+interface IValue {
+  value: MovieData, loading: boolean
+}
 export default class MovieCreator extends Component {
 
-  state: { value: MovieData, loading: boolean };
-  genres: IGenre[];
-  languages: ILanguage[];
-  styles: IStyle[];
+  state: IValue;
+  genres: { value: IGenre, label: string }[];
+  languages: { value: ILanguage, label: string }[];
+  styles: { value: IStyle, label: string }[];
 
 
   constructor(props) {
@@ -29,118 +33,103 @@ export default class MovieCreator extends Component {
   }
 
   async loadData() {
-    this.genres = await MovieService.getGenres();
-    this.languages = await MovieService.getLanguages();
-    this.styles = await MovieService.getStyles();
+    const genres = await MovieService.getGenres();
+    const languages = await MovieService.getLanguages();
+    const styles = await MovieService.getStyles();
+
+    this.genres = genres.map(genre => {
+      const data = { value: genre, label: genre.name };
+      return data;
+    });
+
+    this.languages = languages.map(language => {
+      const data = { value: language, label: language.name };
+      return data;
+    });
+
+    this.styles = styles.map(style => {
+      const data = { value: style, label: style.name };
+      return data;
+    });
     this.setState({ ...this.state, loading: false });
   }
 
   loadHandlers(): void {
-    this.handleChangeName = this.handleChangeName.bind(this);
-    this.handleChangeYear = this.handleChangeName.bind(this);
-    this.handleChangeGenre = this.handleChangeName.bind(this);
-    this.handleChangeLanguage = this.handleChangeName.bind(this);
-    this.handleChangeStyle = this.handleChangeStyle.bind(this);
-    this.handleChangePlatFav = this.handleChangeName.bind(this);
-    this.handleChangeImage = this.handleChangeName.bind(this);
-    this.handleChangeMetaScore = this.handleChangeMetaScore.bind(this);
-    this.handleChangeImdb = this.handleChangeImdb.bind(this);
+    this.handleChange = this.handleChange.bind(this);
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  handleSelectionChange = (newValue: { value: any, label: string }[], actionMeta: any, valueList: any[]) => {
+    switch (actionMeta.action) {
+      case 'clear':
+        this.handleClear(valueList);
+        break;
+      case 'create-option':
+        this.handleCreateOption(newValue, valueList);
+        break;
+      case 'select-option':
+        this.handleSelectOption(newValue, valueList);
+        break;
+      case 'remove-value':
+        this.handleRemoveValue(newValue, valueList);
+        break;
+    }
+  };
 
-  handleChangeName(event) {
-    this.setState({
-      ...this.state,
-      value: {
-        ...this.state.value,
-        name: event.target.value
-      }
-    })
+  handleRemoveValue(newValue: { value: any, label: string }[], valueList: any[]) {
+    if (!newValue)
+      this.handleClear(valueList);
+    else{
+      let newValueList = [];
+      valueList.forEach(element => {
+        if(newValue.find(val => val.label === element.label))
+          newValueList.push(element);
+      });
+      this.handleClear(valueList);
+      newValueList.forEach(val => {
+        valueList.push(val);
+      })
+    }
   }
 
-  handleChangeYear(event) {
-    this.setState({
-      ...this.state,
-      value: {
-        ...this.state.value,
-        year: event.target.value
-      }
-    })
+  handleSelectOption(newValue: { value: any, label: string }[], valueList: any[]) {
+    valueList.push(newValue.slice(-1)[0]);
   }
 
-  handleChangeGenre(event) {
-    this.setState({
-      ...this.state,
-      value: {
-        ...this.state.value,
-        idGenre: event.target.value
-      }
-    })
+  handleCreateOption(newValue: { value: any, label: string }[], valueList: any[]) {
+    const val = newValue.slice(-1)[0]
+    valueList.push({ label: val.label, value: null });
   }
 
-  handleChangeLanguage(event) {
-    this.setState({
-      ...this.state,
-      value: {
-        ...this.state.value,
-        idLanguage: event.target.value
-      }
-    })
+  handleClear(valueList: any[]) {
+    valueList.length = 0;
   }
 
-  handleChangeStyle(event) {
-    this.setState({
-      ...this.state,
-      value: {
-        ...this.state.value,
-        idStyle: event.target.value
-      }
-    })
-  }
+  handleInputSelectionChange = (inputValue: any, actionMeta: any) => {
+    //Check Spellings
+    // console.group('Input Changed');
+    // console.log(inputValue);
+    // console.log(`action: ${actionMeta.action}`);
+    // console.groupEnd();
+  };
 
-  handleChangePlatFav(event) {
-    this.setState({
+  handleChange(event: any) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    const stateValue: IValue = {
       ...this.state,
       value: {
         ...this.state.value,
-        platFav: event.target.value
+        [name]: value
       }
-    })
-  }
-
-  handleChangeImage(event) {
-    this.setState({
-      ...this.state,
-      value: {
-        ...this.state.value,
-        image: { objectImage: event.target.value }
-      }
-    })
-  }
-
-  handleChangeMetaScore(event) {
-    this.setState({
-      ...this.state,
-      value: {
-        ...this.state.value,
-        metaScore: event.target.value
-      },
-    })
-  }
-
-  handleChangeImdb(event) {
-    this.setState({
-      ...this.state,
-      value: {
-        ...this.state.value,
-        imdb: event.target.value
-      }
-    })
+    };
+    this.setState(stateValue);
   }
 
   handleSubmit(event) {
+    console.log(this.state.value);
     alert('A movie was submitted: ' + this.state.value.name);
     event.preventDefault();
   }
@@ -165,13 +154,13 @@ export default class MovieCreator extends Component {
             <Col md={6}>
               <FormGroup>
                 <Label>Title:</Label>
-                <Input type="text" value={this.state.value.name} onChange={this.handleChangeName} />
+                <Input name='name' id="name" type="text" value={this.state.value.name} onChange={this.handleChange} />
               </FormGroup>
             </Col>
             <Col md={6}>
               <FormGroup>
                 <Label>Year:</Label>
-                <Input type="number" min="1900" max="2099" value={this.state.value.year} onChange={this.handleChangeYear} />
+                <Input name='year' id="year" type="number" min="1900" max="2099" value={parseInt(this.state.value.year)} onChange={this.handleChange} />
               </FormGroup>
             </Col>
           </Row>
@@ -179,49 +168,67 @@ export default class MovieCreator extends Component {
             <Col md={4}>
               <FormGroup>
                 <Label>Genre:</Label>
-                <Input type="select" value={this.state.value.idGenre} onChange={this.handleChangeGenre} multiple>
-                  {this.genres.map((value, index) => {
-                    return <option value="value.idGenre" key={index}>{value.name}</option>
-                  })}
-                </Input>
+                <CreatableSelect
+                  defaultValue={[]}
+                  isMulti
+                  isClearable
+                  onChange={(e, a) => this.handleSelectionChange(e, a, this.state.value.genres)}
+                  onInputChange={this.handleInputSelectionChange}
+                  name="genres"
+                  className="genre-multi-select"
+                  classNamePrefix="selectGenre"
+                  options={this.genres}
+                />
               </FormGroup>
             </Col>
             <Col md={4}>
               <FormGroup>
                 <Label>Languages:</Label>
-                <Input type="select" value={this.state.value.idLanguage} onChange={this.handleChangeLanguage} multiple>
-                  {this.languages.map((value, index) => {
-                    return <option value="value.idLanguage" key={index}>{value.name}</option>
-                  })}
-                </Input>
+                <CreatableSelect
+                  defaultValue={[]}
+                  isMulti
+                  isClearable
+                  onChange={(e, a) => this.handleSelectionChange(e, a, this.state.value.languages)}
+                  onInputChange={this.handleInputSelectionChange}
+                  name="languages"
+                  className="languages-multi-select"
+                  classNamePrefix="selectLanguages"
+                  options={this.languages}
+                />
               </FormGroup>
             </Col>
             <Col md={4}>
               <FormGroup>
                 <Label>Style:</Label>
-                <Input type="select" value={this.state.value.idStyle} onChange={this.handleChangeStyle} multiple>
-                  {this.styles.map((value, index) => {
-                    return <option value="value.idStyle" key={index}>{value.name}</option>
-                  })}
-                </Input>
+                <CreatableSelect
+                  defaultValue={[]}
+                  isMulti
+                  isClearable
+                  onChange={(e, a) => this.handleSelectionChange(e, a, this.state.value.styles)}
+                  onInputChange={this.handleInputSelectionChange}
+                  name="style"
+                  className="styles-multi-select"
+                  classNamePrefix="selectStyles"
+                  options={this.styles}
+                />
               </FormGroup>
             </Col>
           </Row>
 
           <FormGroup>
-            <CustomInput type="switch" label="Is Platform Favorite?:" checked={this.state.value.platFav} onChange={this.handleChangePlatFav} />
+            <CustomInput id="platFav" name='platFav' type="switch" label="Is Platform Favorite?:" checked={this.state.value.platFav} onChange={this.handleChange} />
           </FormGroup>
 
           <Row form>
             <Col md={6}>
               <FormGroup>
-                <Media object data-src="holder.js/64x64" alt="Generic placeholder image" />
+                <Media id="image" object data-src="holder.js/64x64" alt="Generic placeholder image" />
               </FormGroup>
             </Col>
             <Col md={6}>
               <FormGroup>
                 <Label>Image:</Label>
-                <Input type="file" value={this.state.value.image.objectImage} onChange={this.handleChangeImage} />
+                <CustomInput id="imageUp" name='image' type="file" />
               </FormGroup>
             </Col>
           </Row>
@@ -231,13 +238,13 @@ export default class MovieCreator extends Component {
             <Col md={6}>
               <FormGroup>
                 <Label>MetaScore:</Label>
-                <Input type="number" max='10' min='0' value={this.state.value.metaScore} onChange={this.handleChangeMetaScore} />
+                <Input id="metaScore" name='metaScore' type="number" max='10' min='0' value={this.state.value.metaScore} onChange={this.handleChange} />
               </FormGroup>
             </Col>
             <Col md={6}>
               <FormGroup>
                 <Label>IMDB:</Label>
-                <Input type="number" max='10' min='0' value={this.state.value.imdb} onChange={this.handleChangeImdb} />
+                <Input id="imdb" name='imdb' type="number" max='10' min='0' value={this.state.value.imdb} onChange={this.handleChange} />
               </FormGroup>
             </Col>
           </Row>

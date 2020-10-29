@@ -1,38 +1,40 @@
-import { resolve } from "dns";
 import { IGenre } from "../models/genre";
 import { ILanguage } from "../models/language";
 import { MovieData } from "../models/movie-data";
 import { IStyle } from "../models/style";
+import * as Constants from '../constants'
 
 export class MovieService {
+  private static URL = Constants.apiUrl;
+  
   static getStyles(): Promise<IStyle[]> {
     return new Promise((resolve) => {
-      resolve([{idStyle: 1, name: 'NoMoreBanana'}])
+      resolve([{ idStyle: 1, name: 'NoMoreBanana' }])
     });
   }
   public static getGenres(): Promise<IGenre[]> {
     return new Promise((resolve) => {
-      resolve([{idGenre: 1, name: 'Banana'}])
+      resolve([{ idGenre: 1, name: 'Banana' }])
     });
   }
-  public static getLanguages(): Promise<ILanguage[]>{
+  public static getLanguages(): Promise<ILanguage[]> {
     return new Promise((resolve) => {
-      resolve([{idLanguage: 1, name: 'NotBanana'}]);
+      resolve([{ idLanguage: 1, name: 'NotBanana' }]);
     });
   }
-  public static getMovies (): Promise<MovieData[]>{
+  public static getMovies(): Promise<MovieData[]> {
     return
   }
-  public static getMovieById(id: number): Promise<MovieData>{
+  public static getMovieById(id: number): Promise<MovieData> {
     return;
   }
-  public static createMovie(movie: MovieData): Promise<MovieData>{
+  public static createMovie(movie: MovieData): Promise<MovieData> {
     return
   }
-  public static updateMovieById(id: number): Promise<MovieData>{
+  public static updateMovieById(id: number): Promise<MovieData> {
     return
   }
-  public static deleteMovieById(id: number): Promise<MovieData>{
+  public static deleteMovieById(id: number): Promise<MovieData> {
     return
   }
 }
