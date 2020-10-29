@@ -18,14 +18,13 @@ export default class MovieCreator extends Component {
   languages: { value: ILanguage, label: string }[];
   styles: { value: IStyle, label: string }[];
 
-
   constructor(props) {
     super(props);
+
     this.state = {
       value: MovieData.Empty,
       loading: true
     };
-    this.loadHandlers();
   }
 
   componentDidMount() {
@@ -54,10 +53,18 @@ export default class MovieCreator extends Component {
     this.setState({ ...this.state, loading: false });
   }
 
-  loadHandlers(): void {
-    this.handleChange = this.handleChange.bind(this);
-
-    this.handleSubmit = this.handleSubmit.bind(this);
+  handleImage = (event: any) => {
+    const file: any = event.target.files[0];
+    this.setState({
+      ...this.state,
+      value: {
+        ...this.state.value,
+        image: {
+          objectImage: file,
+          url: URL.createObjectURL(file)
+        }
+      }
+    })
   }
 
   handleSelectionChange = (newValue: { value: any, label: string }[], actionMeta: any, valueList: any[]) => {
@@ -80,10 +87,10 @@ export default class MovieCreator extends Component {
   handleRemoveValue(newValue: { value: any, label: string }[], valueList: any[]) {
     if (!newValue)
       this.handleClear(valueList);
-    else{
+    else {
       let newValueList = [];
       valueList.forEach(element => {
-        if(newValue.find(val => val.label === element.label))
+        if (newValue.find(val => val.label === element.label))
           newValueList.push(element);
       });
       this.handleClear(valueList);
@@ -107,14 +114,14 @@ export default class MovieCreator extends Component {
   }
 
   handleInputSelectionChange = (inputValue: any, actionMeta: any) => {
-    //Check Spellings
+    // Check Spellings
     // console.group('Input Changed');
     // console.log(inputValue);
     // console.log(`action: ${actionMeta.action}`);
     // console.groupEnd();
   };
 
-  handleChange(event: any) {
+  handleChange = (event: any) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -128,7 +135,7 @@ export default class MovieCreator extends Component {
     this.setState(stateValue);
   }
 
-  handleSubmit(event) {
+  handleSubmit =(event) => {
     console.log(this.state.value);
     alert('A movie was submitted: ' + this.state.value.name);
     event.preventDefault();
@@ -220,15 +227,15 @@ export default class MovieCreator extends Component {
           </FormGroup>
 
           <Row form>
-            <Col md={6}>
+            <Col md={3}>
               <FormGroup>
-                <Media id="image" object data-src="holder.js/64x64" alt="Generic placeholder image" />
+                <Media height="275" width="230" id="image" src={this.state.value.image.url} alt="Generic placeholder image"/>
               </FormGroup>
             </Col>
-            <Col md={6}>
+            <Col md={9}>
               <FormGroup>
                 <Label>Image:</Label>
-                <CustomInput id="imageUp" name='image' type="file" />
+                <CustomInput type="file" onChange={this.handleImage} id="imageUp" name='image'  />
               </FormGroup>
             </Col>
           </Row>
