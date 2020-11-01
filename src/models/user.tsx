@@ -7,7 +7,7 @@ export class User {
         public idUser: number = 1
     ) { }
 
-    public static get Empty(): User { return new User() };
+    public static get Empty(): User { return new User() }
     public static local: User = User.Empty;
 
 }

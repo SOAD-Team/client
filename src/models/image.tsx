@@ -7,5 +7,5 @@ export class Image{
         public url: string = logo
     ){ }
     
-    public static get Empty(): Image{return new Image()};
+    public static get Empty(): Image{return new Image()}
 }

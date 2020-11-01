@@ -20,6 +20,6 @@ export class MovieData {
         public metaScore?: number,
         public imdb?: number) { }
 
-    public static get Empty(): MovieData { return new MovieData() };
+    public static get Empty(): MovieData { return new MovieData() }
 
 }
