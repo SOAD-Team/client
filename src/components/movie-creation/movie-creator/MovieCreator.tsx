@@ -10,6 +10,7 @@ import { Validators } from '../../../helpers/validators';
 import { IOption } from '../../shared/IOption';
 import { Genre } from '../../../models/genre';
 import { IData } from '../../../models/data';
+import { Image } from '../../../models/image';
 
 interface IValue {
   value: MovieData, loading: boolean
@@ -35,9 +36,9 @@ export default class MovieCreator extends Component {
   }
 
   async loadData() {
-    const genres: Genre[] = await (await MovieService.getGenres()).data;
-    const languages: Language[] = await (await MovieService.getLanguages()).data;
-    const styles: Style[] = await (await MovieService.getStyles()).data;
+    const genres: Genre[] = (await MovieService.getGenres()).data;
+    const languages: Language[] = (await MovieService.getLanguages()).data;
+    const styles: Style[] = (await MovieService.getStyles()).data;
 
     this.genres = genres.map(genre => {
       const data = { value: genre, label: genre.name };
@@ -58,12 +59,15 @@ export default class MovieCreator extends Component {
 
   handleImage = (event: any) => {
     const file: any = event.target.files[0];
+    const fd: FormData = new FormData();
+    console.log(fd);
+    fd.append('image', file,file.name);
     this.setState({
       ...this.state,
       value: {
         ...this.state.value,
         image: {
-          objectImage: file,
+          objectImage: fd,
           url: URL.createObjectURL(file)
         }
       }
@@ -139,14 +143,22 @@ export default class MovieCreator extends Component {
     this.setState(stateValue);
   }
 
-  handleSubmit = (event) => {
-    const movie: MovieData = this.state.value;
-    if (Validators.validateMovie(movie)) {
-      MovieService.createMovie(movie).then(res => {
-        console.log(res.data);
-      });
-    }
+  handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+      const movie: MovieData = this.state.value;
+      if (Validators.validateMovie(movie)) {
+        const image: Image = (await MovieService.createImage(movie.image.objectImage)).data;
+        console.log(image);
+        movie.image = image;
+        MovieService.createMovie(movie).then(res => {
+          console.log(res.data);
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
   }
 
   notEmpty(list: any[]): boolean {
