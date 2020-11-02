@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './MovieCreator.css'
 import { MovieData } from '../../../models/movie-data';
 import { MovieService } from '../../../services/movieService'
 import { Language } from '../../../models/language';

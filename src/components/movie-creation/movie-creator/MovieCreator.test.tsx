@@ -16,21 +16,21 @@ describe('MovieCreator', () => {
     });
 
     it('should create', () => {
-        const spyS = spyOn(MovieService, 'getStyles').and.callFake(() => {
+        spyOn(MovieService, 'getStyles').and.callFake(() => {
             let res: AxiosResponse<Style[]>;
             res.data = [];
             return new Promise((resolve)=> {
                 resolve(res);
             })
         })
-        const spyL = spyOn(MovieService, 'getLanguages').and.callFake(() => {
+        spyOn(MovieService, 'getLanguages').and.callFake(() => {
             let res: AxiosResponse<Language[]>;
             res.data = [];
             return new Promise((resolve)=> {
                 resolve(res);
             })
         })
-        const spyG = spyOn(MovieService, 'getGenres').and.callFake(() => {
+        spyOn(MovieService, 'getGenres').and.callFake(() => {
             let res: AxiosResponse<Genre[]>;
             res.data = [];
             return new Promise((resolve)=> {
