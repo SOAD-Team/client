@@ -12,7 +12,7 @@ export default class App extends Component {
     return (
       <Layout>
         <Route exact path='/' component={Home} />
-        <Route path='/movieList' component={MovieCreator} />
+        <Route path='/createMovie' component={MovieCreator} />
       </Layout>
     );
   }
