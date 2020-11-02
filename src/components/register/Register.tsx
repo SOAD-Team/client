@@ -11,6 +11,7 @@ import {
   Col,
 } from "reactstrap";
 import { User } from "../../models/user";
+import { RegisterService } from "../../services/registerService";
 
 interface stateValue {
   value: User;
@@ -35,9 +36,10 @@ export default class Register extends Component {
     this.handleSignUp = this.handleSignUp.bind(this);
   }
 
-  handleSignUp(event) {
+  async handleSignUp(event) {
     console.log(this.state.value);
-    alert("Your account was created succesfully!");
+    const data = await RegisterService.postUserInfo(this.state.value);
+    console.log(data);
   }
 
   handleChange(event: any) {
@@ -60,7 +62,7 @@ export default class Register extends Component {
         <h1 id="formLabel">Create your Account!</h1>
         <br></br>
         <br></br>
-        <Form onSubmit={this.handleSignUp}>
+        <Form>
           <Row form>
             <Col md={6}>
               <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
@@ -69,7 +71,7 @@ export default class Register extends Component {
                 </Label>
                 <Input
                   type="text"
-                  name="name"
+                  name="Name"
                   id="nameInput"
                   placeholder="Enter your name"
                   onChange={this.handleChange}
@@ -92,7 +94,7 @@ export default class Register extends Component {
                 </Label>
                 <Input
                   type="text"
-                  name="lastname"
+                  name="LastName"
                   id="lastnameInput"
                   placeholder="Enter your last name"
                   onChange={this.handleChange}
@@ -115,7 +117,7 @@ export default class Register extends Component {
                 </Label>
                 <Input
                   type="email"
-                  name="email"
+                  name="Email"
                   id="exampleEmail"
                   placeholder="something@idk.cool"
                   onChange={this.handleChange}
@@ -138,7 +140,7 @@ export default class Register extends Component {
                 </Label>
                 <Input
                   type="password"
-                  name="password"
+                  name="Password"
                   id="examplePassword"
                   placeholder="Super Secret Password!"
                   onChange={this.handleChange}
@@ -153,7 +155,7 @@ export default class Register extends Component {
               </FormGroup>
             </Col>
           </Row>
-          <Button type="submit">Submit</Button>
+          <Button onClick={this.handleSignUp}>Submit</Button>
         </Form>
       </Jumbotron>
     );
