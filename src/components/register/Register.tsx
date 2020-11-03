@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component} from "react";
 import "./Register.css";
 import {
   Button,
@@ -9,6 +9,7 @@ import {
   Jumbotron,
   Row,
   Col,
+  Alert,
 } from "reactstrap";
 import { User } from "../../models/user";
 import { RegisterService } from "../../services/registerService";
@@ -16,6 +17,7 @@ import { RegisterService } from "../../services/registerService";
 interface stateValue {
   value: User;
   loading: boolean;
+  passMatch : boolean;
 }
 
 export default class Register extends Component {
@@ -25,7 +27,8 @@ export default class Register extends Component {
     super(props);
     this.state = {
       value: User.Empty,
-      loading: false
+      loading: false,
+      passMatch : false
     }
     this.loadHandlers();
   }
@@ -34,6 +37,8 @@ export default class Register extends Component {
     this.handleChange = this.handleChange.bind(this);
 
     this.handleSignUp = this.handleSignUp.bind(this);
+
+    this.handlePassword = this.handlePassword.bind(this);
   }
 
   async handleSignUp(event) {
@@ -54,6 +59,26 @@ export default class Register extends Component {
       },
     };
     this.setState(stateValue);
+  }
+
+  handlePassword(event: any){
+    const target = event.target;
+    const valueEntered = target.value;
+    console.log(this.state.value.Password);
+    console.log(valueEntered);
+    if(this.state.value.Password === valueEntered){
+      const stateValue : stateValue = {
+        ...this.state,
+        passMatch : true
+      }
+      this.setState(stateValue);
+    }
+    else{
+      const stateValue : stateValue = {
+        ...this.state,
+        passMatch : true
+      }
+    }
   }
 
   render() {
@@ -151,11 +176,34 @@ export default class Register extends Component {
           <Row form>
             <Col md={6}>
               <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                <Label for="examplePassword" className="mr-sm-2">
+                  Confirm the password for your account
+                </Label>
+                <Input
+                  type="password"
+                  name="CPassword"
+                  id="CexamplePassword"
+                  placeholder="Yat another Super Secret Password!"
+                  onChange={this.handlePassword}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row form>
+            <Col md={6}>
+              <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+               {!this.state.passMatch && <Alert key={'danger'} variant={'danger'}>Passwords do not match!</Alert>}
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row form>
+            <Col md={6}>
+              <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                 <br></br> 
               </FormGroup>
             </Col>
           </Row>
-          <Button onClick={this.handleSignUp}>Submit</Button>
+          <Button onClick={this.handleSignUp} disabled={!this.state.passMatch}>Submit</Button>
         </Form>
       </Jumbotron>
     );
