@@ -14,6 +14,7 @@ export default class App extends Component {
       <Layout>
         <Route exact path='/' component={Home} />
         <Route path='/createMovie' component={MovieCreator} />
+        <Route path='/register' component={Register} />
       </Layout>
     );
   }
