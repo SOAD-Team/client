@@ -4,16 +4,20 @@ import { Layout } from './components/Layout';
 import { Home } from './components/Home'
 import { MovieList } from './components/MovieList';
 import "./App.css";
+import { LogIn } from "./components/LogIn";
+import { Container } from "reactstrap";
 
 export default class App extends Component {
   static displayName = App.name;
 
   render () {
     return (
-      <Layout>
+      <div>
         <Route exact path='/' component={Home} />
         <Route path='/movieList' component={MovieList} />
-      </Layout>
+        <Route path='/login' component={LogIn} />
+       
+      </div>
     );
   }
 }
