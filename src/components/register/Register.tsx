@@ -43,7 +43,11 @@ export default class Register extends Component {
   async handleSignUp(event) {
     console.log(this.state.value);
     const data = await RegisterService.postUserInfo(this.state.value);
-    console.log(data);
+    if(data === 0){
+      alert("User is already registered!");
+    }else{
+      alert("User Registered!");
+    }
   }
 
   handleChange(event: any) {
@@ -63,8 +67,6 @@ export default class Register extends Component {
   handlePassword(event: any){
     const target = event.target;
     const valueEntered = target.value;
-    console.log(this.state.value.Password);
-    console.log(valueEntered);
     if(this.state.value.Password === valueEntered){
       const stateValue : stateValue = {
         ...this.state,

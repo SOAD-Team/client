@@ -12,7 +12,7 @@ export class RegisterService {
         body: JSON.stringify(user)
       };
   
-      const response = await fetch(Constants.restURL + "registeruser", requestOptions);
+      const response = await fetch(Constants.apiUrl + "registeruser", requestOptions);
       const data = await response.json();
 
       return data;
