@@ -76,7 +76,7 @@ export default class Register extends Component {
     else{
       const stateValue : stateValue = {
         ...this.state,
-        passMatch : true
+        passMatch : false
       }
     }
   }
