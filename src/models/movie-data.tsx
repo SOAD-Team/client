@@ -6,7 +6,7 @@ import { User } from "./user";
 
 export class MovieData {
     constructor(
-        public idUser: number = User.local.idUser,
+        public idUser: number = User.local.IdUser,
         public idMovieData?: number,
         public idMovie?: number,
         public registerDate: Date = new Date(),
