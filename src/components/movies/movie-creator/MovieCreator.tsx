@@ -10,6 +10,7 @@ import { IOption } from '../../shared/IOption';
 import { Genre } from '../../../models/genre';
 import { IData } from '../../../models/data';
 import { Image } from '../../../models/image';
+import { DotLoader } from 'react-spinners';
 
 interface IValue {
   value: MovieData, loading: boolean
@@ -60,7 +61,7 @@ export default class MovieCreator extends Component {
     const file: any = event.target.files[0];
     const fd: FormData = new FormData();
     console.log(fd);
-    fd.append('image', file,file.name);
+    fd.append('image', file, file.name);
     this.setState({
       ...this.state,
       value: {
@@ -166,10 +167,15 @@ export default class MovieCreator extends Component {
 
   render() {
     let contents: any = this.state.loading
-      ? <p><em>Loading...</em></p>
+      ? <div style={{
+        position: 'absolute', left: '50%', top: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}>
+        <DotLoader size={100} loading={this.state.loading}/>
+      </div>
       : this.renderForm();
     return (
-      <div>
+      <div >
         <h1 id="formLabel" >Create a Movie!</h1>
         {contents}
       </div>
