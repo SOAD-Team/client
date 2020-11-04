@@ -1,5 +1,4 @@
 import React, { Component} from "react";
-import "./Register.css";
 import {
   Button,
   Form,
@@ -78,6 +77,7 @@ export default class Register extends Component {
         ...this.state,
         passMatch : false
       }
+      this.setState(stateValue);
     }
   }
 
