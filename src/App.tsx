@@ -5,6 +5,7 @@ import { Home } from './components/home/Home'
 import "./App.css";
 import MovieCreator from "./components/movie-creation/movie-creator/MovieCreator";
 import Register from "./components/register/Register";
+import MovieSearch from "./components/movie-search/MovieSearch";
 
 export default class App extends Component {
   static displayName = App.name;
@@ -15,6 +16,7 @@ export default class App extends Component {
         <Route exact path='/' component={Home} />
         <Route path='/createMovie' component={MovieCreator} />
         <Route path='/register' component={Register} />
+        <Route path='/mvSearch' component={MovieSearch} />
       </Layout>
     );
   }
