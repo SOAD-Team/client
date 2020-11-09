@@ -3,6 +3,7 @@ import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLi
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 import mymovie from '../assets/img/mymovie.png'
+import Carousel1 from './Carousel';
 
 export class InitMenu extends Component {
     static displayName = InitMenu.name;

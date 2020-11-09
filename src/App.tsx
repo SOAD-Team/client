@@ -6,6 +6,7 @@ import { MovieList } from './components/MovieList';
 import "./App.css";
 import { LogIn } from "./components/LogIn";
 import { Container } from "reactstrap";
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default class App extends Component {
   static displayName = App.name;
