@@ -4,6 +4,7 @@ import Example from './Carousel';
 import { InitMenu } from './InitMenu';
 import { Layout } from './Layout';
 import Carousel1 from './Carousel';
+import './NavMenu.css';
 /*import { Botton, Alert, Breadcrum, Card, Form} */
 
 
@@ -14,13 +15,13 @@ export class LogIn extends Component {
       return (
         <div>
             <InitMenu />
-            <Container>
-              <div className="row center">
+            <Container className="center">
+              <div className="row">
                 <div className="col-6">
                   <Carousel1/>
                 </div>
                 <div className="col-6">
-              <Form>
+              <Form className="left">
                 <FormGroup>
                   <Label for="exampleEmail"> Email </Label>
                   <Input type="email" name="email" id="exampleEmail" placeholder="example@gmail.com"/>
@@ -34,7 +35,9 @@ export class LogIn extends Component {
                         <Input type="checkbox" value="remember-me" /> Remember me
                   </Label>
                 </div>
-                <Button color="primary"> Log In  </Button>           
+                <div className="center">
+                <Button color="primary"> k            Log In                 k  </Button>        
+                </div>   
                 </Form>
                 </div>
                 </div>

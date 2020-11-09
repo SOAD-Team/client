@@ -6,7 +6,7 @@ import './NavMenu.css';
 const items = [
     {
         src: require('../assets/img/cine.jpg'),
-        /* altText: 'Best Movies',  */
+        altText: 'Best Movies',
         caption: 'Best Movies',
     },
     {
