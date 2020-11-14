@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { Route } from 'react-router';
-import { Home } from './components/Home'
-import { MovieList } from './components/MovieList';
+import { Layout } from './components/core/layout/Layout';
+import { Home } from './components/home/Home'
 import "./App.css";
+import MovieCreator from "./components/movies/movie-creator/MovieCreator";
+import MovieUpdater from "./components/movies/movie-update/MovieUpdater";
+import Register from "./components/register/Register";
 import { LogIn } from "./components/LogIn";
-import { SingIn } from "./components/SingIn";
 import { Container } from "reactstrap";
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -15,10 +17,10 @@ export default class App extends Component {
     return (
       <div>
         <Route path='/home' component={Home} />
-        <Route path='/movieList' component={MovieList} />
         <Route exact path='/' component={LogIn} />
-        <Route path='/singIn' component={SingIn} />
-       
+        <Route path='/register' component={Register} />
+        <Route path='/updateMovie' component={MovieUpdater} />
+        <Route path='/createMovie' component={MovieCreator} />
       </div>
     );
   }
