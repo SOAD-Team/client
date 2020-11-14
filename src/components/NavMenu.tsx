@@ -1,13 +1,20 @@
 
 import React, { Component } from 'react';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, UncontrolledButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 import mymovie from '../assets/img/mymovie.png'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
   state: any;
+
+  name=cookies.get('Name');
+  lastname=cookies.get('LastName');
+  
 
   constructor (props: any) {
     super(props);
@@ -24,6 +31,15 @@ export class NavMenu extends Component {
     });
   }
 
+  logOut=()=> {
+    cookies.remove('Name', {path: "/"});
+    cookies.remove('LastName', {path: "/"});
+    cookies.remove('Email', {path: "/"});
+    window.location.href= './';
+
+
+  }
+
   render () {
     return (
       <header>
@@ -37,6 +53,18 @@ export class NavMenu extends Component {
               <ul className="navbar-nav flex-grow">
                 <NavItem>
                   <NavLink tag={Link} className="text-white" to="/movieList">Movies</NavLink>
+                </NavItem>
+                <NavItem>
+                  <UncontrolledButtonDropdown>
+                    <DropdownToggle caret className="text-white">
+                      {this.name} {this.lastname}
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem>
+                        <NavLink className="text-black" onClick={this.logOut}>Log Out</NavLink>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledButtonDropdown>
                 </NavItem>
               </ul>
             </Collapse>

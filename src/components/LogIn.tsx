@@ -5,10 +5,11 @@ import Carousel1 from './Carousel';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 import axios from 'axios';
+import Cookies from 'universal-cookie'
 
 
 const baseUrl="http://localhost:3001/user"
-
+const cookies = new Cookies();
 
 
 export class LogIn extends Component {
@@ -35,7 +36,20 @@ export class LogIn extends Component {
     iniciarSesion=async()=>{
       await axios.get(baseUrl, {params: {Email: this.state.form.Email, Password: this.state.form.Password}})
       .then(response=>{
-        console.log(response.data);
+        return response.data;
+        
+      })
+      .then(response=>{
+        if(response.length>0){
+          var respuesta=response[0];
+          cookies.set('Name', respuesta.Name, {path:"/"})
+          cookies.set('LastName', respuesta.LastName, {path:"/"})
+          cookies.set('Email', respuesta.Email, {path:"/"})
+          alert(`Bienvenido ${respuesta.Name} ${respuesta.LastName}`)
+          window.location.href= "/home";
+        }else{
+          alert ('Elusuario o la contraseña no son correctos')
+        }
       })
       .catch(error=>{
         console.log(error);
