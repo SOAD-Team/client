@@ -1,15 +1,46 @@
-import React, { Component, useState } from 'react';
-import { Container, Button, Fade, Form, FormGroup, Label, Input } from 'reactstrap';
-import Example from './Carousel';
+import React, { Component } from 'react';
+import { Container, Button, Fade, Form, FormGroup, Label, Input, NavLink, NavItem } from 'reactstrap';
 import { InitMenu } from './InitMenu';
-import { Layout } from './Layout';
 import Carousel1 from './Carousel';
+import { Link } from 'react-router-dom';
 import './NavMenu.css';
-/*import { Botton, Alert, Breadcrum, Card, Form} */
+import axios from 'axios';
+
+
+const baseUrl="http://localhost:3001/user"
+
 
 
 export class LogIn extends Component {
     static displayName = LogIn.name;
+
+    state={
+      form:{
+        Email: '',
+        Password: ''
+      }
+        
+    }
+
+    handleChange=async (e: { target: { name: any; value: any; }; })=>{
+      await this.setState({
+        form:{
+          ...this.state.form,
+          [e.target.name]: e.target.value
+        }
+      });
+      
+    }
+
+    iniciarSesion=async()=>{
+      await axios.get(baseUrl, {params: {Email: this.state.form.Email, Password: this.state.form.Password}})
+      .then(response=>{
+        console.log(response.data);
+      })
+      .catch(error=>{
+        console.log(error);
+      })
+    }
   
     render () {
       return (
@@ -23,21 +54,27 @@ export class LogIn extends Component {
                 <div className="col-6">
               <Form className="left">
                 <FormGroup>
-                  <Label for="exampleEmail"> Email </Label>
-                  <Input type="email" name="email" id="exampleEmail" placeholder="example@gmail.com"/>
+                  <Label for="exampleEmail"> User </Label>
+                  <Input type="email" name="Email" id="exampleEmail" placeholder="example@gmail.com" onChange={this.handleChange}/>
                 </FormGroup>
                 <FormGroup>
                   <Label for="examplePassword"> Password </Label>
-                  <Input type="password" name="pasword" id="examplePassword" placeholder="password"/>
+                  <Input type="password" name="Password" id="examplePassword" placeholder="password" onChange={this.handleChange}/>
                 </FormGroup>
                 <div className="checkbox mb-3 mx-4">
                   <Label>
                         <Input type="checkbox" value="remember-me" /> Remember me
                   </Label>
                 </div>
-                <div className="center">
-                <Button color="primary"> k            Log In                 k  </Button>        
-                </div>   
+                <div className="row">
+                <div className="center col-md-3 mb-3"></div>
+                <div className="center col-md-6 mb-3">
+                
+                <Button className="btn btn-primary btn-lg btn-block" color="primary" onClick={this.iniciarSesion}>Log In</Button>   
+     
+                </div> 
+                <div className="center col-md-3 mb-3"></div> 
+                </div> 
                 </Form>
                 </div>
                 </div>

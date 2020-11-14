@@ -3,7 +3,6 @@ import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLi
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 import mymovie from '../assets/img/mymovie.png'
-import Carousel1 from './Carousel';
 
 export class InitMenu extends Component {
     static displayName = InitMenu.name;
@@ -37,10 +36,10 @@ export class InitMenu extends Component {
                 <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
                   <ul className="navbar-nav flex-grow">
                     <NavItem>
-                      <NavLink tag={Link} className="text-white" to="/login">Log In</NavLink>
+                      <NavLink tag={Link} className="text-white" to="/">Log In</NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink tag={Link} className="text-white" to="/movieList">Sing In</NavLink>
+                      <NavLink tag={Link} className="text-white" to="/singIn">Sing In</NavLink>
                     </NavItem>
                   </ul>
                 </Collapse>
