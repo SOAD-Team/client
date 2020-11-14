@@ -187,13 +187,19 @@ export default class MovieCreator extends Component {
       <Jumbotron>
         <Form onSubmit={this.handleSubmit}>
           <Row form>
-            <Col md={6}>
+            <Col md={4}>
               <FormGroup>
                 <Label>Title:</Label>
                 <Input name='name' id="name" type="text" value={this.state.value.name} onChange={this.handleChange} required />
               </FormGroup>
             </Col>
-            <Col md={6}>
+            <Col md={4}>
+              <FormGroup>
+                <Label>Title:</Label>
+                <Input name='director' id="director" type="text" value={this.state.value.director} onChange={this.handleChange} required />
+              </FormGroup>
+            </Col>
+            <Col md={4}>
               <FormGroup>
                 <Label>Year:</Label>
                 <Input name='year' id="year" type="number" min="1900" max="2099" value={this.state.value.year} onChange={this.handleChange} required />

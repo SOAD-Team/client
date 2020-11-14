@@ -3,6 +3,7 @@
         "imdb"
     ],
     "cSpell.ignoreWords": [
-        "esnext"
+        "esnext",
+        "registeruser"
     ]
 }

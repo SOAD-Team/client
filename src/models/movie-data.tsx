@@ -17,8 +17,10 @@ export class MovieData {
         public platFav: boolean = false,
         public image: Image = Image.Empty,
         public styles: Style[] = [],
+        public director: string = "",
         public metaScore?: number,
-        public imdb?: number) { }
+        public imdb?: number
+        ) { }
 
     public static get Empty(): MovieData { return new MovieData() }
 
