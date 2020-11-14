@@ -195,7 +195,7 @@ export default class MovieCreator extends Component {
             </Col>
             <Col md={4}>
               <FormGroup>
-                <Label>Title:</Label>
+                <Label>Director:</Label>
                 <Input name='director' id="director" type="text" value={this.state.value.director} onChange={this.handleChange} required />
               </FormGroup>
             </Col>
