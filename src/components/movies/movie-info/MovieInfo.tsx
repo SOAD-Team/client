@@ -42,6 +42,8 @@ export default class MovieInfo extends Component {
   async loadData() {
     const movie: MovieData = (await MovieService.getMovieById(this.state.id)).data;
 
+    console.log(movie);
+
     var langNames: string[] = [];
     var genNames: string[] = [];
 
@@ -127,7 +129,7 @@ export default class MovieInfo extends Component {
                 <br></br>
               </Media>
               <Media body>
-                Genres: {this.getAllLanguages()}
+                Genres: {this.getAllGenres()}
               </Media>
             </Media>
           </Media>
