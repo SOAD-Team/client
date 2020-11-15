@@ -19,6 +19,7 @@ export default class App extends Component {
         <Route path='/register' component={Register} />
         <Route path='/updateMovie' component={MovieUpdater} />
         <Route path='/createMovie' component={MovieCreator} />
+        <Route path='/mvSearch' component={MovieSearch} />
       </div>
     );
   }

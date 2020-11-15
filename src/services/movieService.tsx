@@ -50,4 +50,7 @@ export class MovieService {
   public static deleteMovieById(id: number): Promise<MovieData> {
     return
   }
+  public static getMovieData(): Promise<AxiosResponse<MovieData[]>>{
+    return axios.get(`${this.URL}/moviedata`)
+  }
 }
