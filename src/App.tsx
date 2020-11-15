@@ -9,6 +9,7 @@ import { LogIn } from "./components/authentication/LogIn";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import MovieSearch from "./components/movie-search/MovieSearch";
 import MovieSearch from "./components/movies/movie-search/MovieSearch";
+import MovieInfo from "./components/movies/movie-info/MovieInfo";
 
 
 
@@ -24,6 +25,8 @@ export default class App extends Component {
         <Route path='/updateMovie' component={MovieUpdater} />
         <Route path='/createMovie' component={MovieCreator} />
         <Route path='/mvSearch' component={MovieSearch} />
+        <Route path='/movieinfo/:id' component={MovieInfo} />
+      </Layout>
       </div>
     );
   }
