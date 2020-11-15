@@ -113,7 +113,7 @@ export default class MovieSearch extends Component {
         {this.state.value.map(movie =>
           <div>       
             <Media key={movie.idMovie}>
-              <Media left top href="#">
+              <Media left top href={"movieinfo/" + movie.idMovie}>
                 <img className="photo" src={this.getImage(movie.imageMongoId)} alt="new"/>
               </Media>
               <Media body>

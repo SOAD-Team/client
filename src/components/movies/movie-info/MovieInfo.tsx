@@ -42,22 +42,19 @@ export default class MovieInfo extends Component {
   async loadData() {
     const movie: MovieData = (await MovieService.getMovieById(this.state.id)).data;
 
-    const lang: Language[] = (await MovieService.getLanguages()).data;
-
-    const gen: Genre[] = (await MovieService.getGenres()).data;
-
     var langNames: string[] = [];
-
     var genNames: string[] = [];
 
-    for (let movieLang of movie.movieDataLanguage){
-      var foundLang = lang.find(langName => langName.idLanguage === movieLang.idLanguage);
-      langNames.push(foundLang.name);
+    for (let movieLang of movie.languages){
+      if(movieLang != null){
+        langNames.push(movieLang.name);
+      }
     }
 
-    for(let movieGen of movie.movieDataGenre){
-      var foundGen = gen.find(genName => genName.idGenre === movieGen.idGenre);
-      genNames.push(foundGen.name);
+    for(let movieGen of movie.genres){
+      if(movieGen != null){
+        genNames.push(movieGen.name);
+      }
     }
 
     const stateValue: stateValue = {
@@ -69,7 +66,7 @@ export default class MovieInfo extends Component {
     this.setState(stateValue);
   }
 
-  getImage(id: string){
+  getImage(id: number){
     return this.URL + "/movieimages/" + id; 
   }
 
@@ -94,11 +91,11 @@ export default class MovieInfo extends Component {
     return (
       <Jumbotron>{ this.state.value != null &&
         <div>
-          <h1 id="formLabel">{this.state.value.title}</h1>
+          <h1 id="formLabel">{this.state.value.name}</h1>
           <br></br>       
           <Media key={this.state.value.idMovie}>
             <Media left top>
-              <Media object src={this.getImage(this.state.value.imageMongoId)} alt="new" className="photoInfo"/>
+              <Media object src={this.getImage(this.state.value.image.id)} alt="new" className="photoInfo"/>
             </Media>
             <Media body className="movieInfo">
                 Year: {this.state.value.year}
