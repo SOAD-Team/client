@@ -63,6 +63,12 @@ export class NavMenu extends Component {
                       <DropdownItem>
                         <NavLink tag={Link} className="text-dark" to="/updateMovie">Update my movies</NavLink>
                       </DropdownItem>
+                      <DropdownItem>
+                        <NavLink tag={Link} className="text-dark" to="/mvSearch">Movie Search</NavLink>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <NavLink tag={Link} className="text-dark" to="/updateMovie">Movie Recommendations</NavLink>
+                      </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
                 </NavItem>
@@ -77,12 +83,6 @@ export class NavMenu extends Component {
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledButtonDropdown>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/mvSearch">Movie Search</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/mvSearch">Movie Search</NavLink>
                 </NavItem>
               </ul>
             </Collapse>

@@ -4,6 +4,7 @@ import { MovieData } from '../../../models/movie-data';
 import { MovieService } from '../../../services/movieService';
 import * as Constants from '../../../constants';
 import './MovieSearch.css'
+import { NavMenu } from '../../core/navMenu/NavMenu';
 
 
 interface stateValue {
@@ -86,6 +87,8 @@ export default class MovieSearch extends Component {
 
   render() {    
     return (
+      <div>
+        <NavMenu/>
       <Jumbotron>
         <h1 id="formLabel">Search for a movie!</h1>
         <br></br>
@@ -127,6 +130,7 @@ export default class MovieSearch extends Component {
           </div>
         )}
     </Jumbotron>
+    </div>
     )
   }
 }
