@@ -6,7 +6,7 @@ import "./App.css";
 import MovieCreator from "./components/movies/movie-creator/MovieCreator";
 import MovieUpdater from "./components/movies/movie-update/MovieUpdater";
 import Register from "./components/register/Register";
-import MovieSearch from "./components/movie-search/MovieSearch";
+import MovieSearch from "./components/movies/movie-search/MovieSearch";
 
 export default class App extends Component {
   static displayName = App.name;
