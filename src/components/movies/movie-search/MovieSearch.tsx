@@ -118,7 +118,7 @@ export default class MovieSearch extends Component {
               </Media>
               <Media body>
                 <Media heading>
-                  <a href="https://mail.google.com/mail/u/0/#inbox" className="link">{movie.title}</a>
+                  <a href={"movieinfo/" + movie.idMovie} className="link">{movie.title}</a>
                 </Media>
                 Year: {movie.year}
               </Media>
