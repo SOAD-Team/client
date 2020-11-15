@@ -8,6 +8,7 @@ import { Style } from "../../../models/style";
 import { User } from "../../../models/user";
 import { MovieService } from "../../../services/movieService";
 import { IData } from "../../shared/IData";
+import { NavMenu } from '../../core/navMenu/NavMenu';
 
 interface IValue {
     value: IData[], loading: boolean
@@ -31,7 +32,7 @@ export default class MovieUpdater extends Component {
 
     async loadData() {
         const data: IData[] = [];
-        const movies: MovieData[] = (await MovieService.getMoviesFromUser(User.local.IdUser)).data;
+        const movies: MovieData[] = (await MovieService.getMoviesFromUser(User.local.idUser)).data;
         
         for(const movie of movies){
             const score: number = (await MovieService.getMovieScore(movie.idMovie)).data; 
@@ -61,6 +62,7 @@ export default class MovieUpdater extends Component {
             : this.renderTable();
         return (
             <div>
+                <NavMenu/>
                 {contents}
             </div>
         )
