@@ -8,8 +8,6 @@ export class RegisterService {
 
   public static async logIn(email:string, password:string):Promise<AxiosResponse<User>>{
     return axios.post(`${this.URL}registeruser/login`,{email, password});
-    
-
   }
 
 
@@ -25,7 +23,4 @@ export class RegisterService {
 
       return data;
   }
-
-
-
 }

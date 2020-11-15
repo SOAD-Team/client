@@ -7,6 +7,7 @@ import { MovieData } from "../../../models/movie-data";
 import { Style } from "../../../models/style";
 import { User } from "../../../models/user";
 import { MovieService } from "../../../services/movieService";
+import { NavMenu } from "../../core/navMenu/NavMenu";
 import { IData } from "../../shared/IData";
 
 interface IValue {
@@ -66,6 +67,7 @@ export default class MovieUpdaterList extends Component {
             : this.renderTable();
         return (
             <div>
+                <NavMenu/>
                 {contents}
             </div>
         )

@@ -12,6 +12,7 @@ import { IData } from '../../../models/data';
 import { Image } from '../../../models/image';
 import { DotLoader } from 'react-spinners';
 import * as Constants from '../../../constants';
+import { NavMenu } from '../../core/navMenu/NavMenu';
 
 interface IValue {
     value: MovieData, loading: boolean
@@ -193,6 +194,7 @@ export default class MovieUpdater extends Component {
             : this.renderForm();
         return (
             <div >
+                <NavMenu/>
                 <h1 id="formLabel" >Update a Movie!</h1>
                 {contents}
             </div>
