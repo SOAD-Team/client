@@ -10,6 +10,7 @@ import { IOption } from '../../shared/IOption';
 import { Genre } from '../../../models/genre';
 import { IData } from '../../../models/data';
 import { Image } from '../../../models/image';
+import { DotLoader } from 'react-spinners';
 
 interface IValue {
   value: MovieData, loading: boolean
@@ -60,7 +61,7 @@ export default class MovieCreator extends Component {
     const file: any = event.target.files[0];
     const fd: FormData = new FormData();
     console.log(fd);
-    fd.append('image', file,file.name);
+    fd.append('image', file, file.name);
     this.setState({
       ...this.state,
       value: {
@@ -166,10 +167,15 @@ export default class MovieCreator extends Component {
 
   render() {
     let contents: any = this.state.loading
-      ? <p><em>Loading...</em></p>
+      ? <div style={{
+        position: 'absolute', left: '50%', top: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}>
+        <DotLoader size={100} loading={this.state.loading}/>
+      </div>
       : this.renderForm();
     return (
-      <div>
+      <div >
         <h1 id="formLabel" >Create a Movie!</h1>
         {contents}
       </div>
@@ -181,13 +187,19 @@ export default class MovieCreator extends Component {
       <Jumbotron>
         <Form onSubmit={this.handleSubmit}>
           <Row form>
-            <Col md={6}>
+            <Col md={4}>
               <FormGroup>
                 <Label>Title:</Label>
                 <Input name='name' id="name" type="text" value={this.state.value.name} onChange={this.handleChange} required />
               </FormGroup>
             </Col>
-            <Col md={6}>
+            <Col md={4}>
+              <FormGroup>
+                <Label>Director:</Label>
+                <Input name='director' id="director" type="text" value={this.state.value.director} onChange={this.handleChange} required />
+              </FormGroup>
+            </Col>
+            <Col md={4}>
               <FormGroup>
                 <Label>Year:</Label>
                 <Input name='year' id="year" type="number" min="1900" max="2099" value={this.state.value.year} onChange={this.handleChange} required />

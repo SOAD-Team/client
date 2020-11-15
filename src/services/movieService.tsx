@@ -24,8 +24,10 @@ export class MovieService {
   public static getMovieById(id: number): Promise<MovieData> {
     return;
   }
+  public static getMoviesFromUser(userId: number) : Promise<AxiosResponse<MovieData[]>>{
+    return axios.get(`${this.URL}/user/${userId}`);
+  }
   public static async createMovie(movie: MovieData): Promise<AxiosResponse<MovieData>> {
-    console.log(movie);
     return axios.post(this.URL, movie);
   }
   public static createImage(image: FormData) : Promise<AxiosResponse<Image>> {
@@ -36,10 +38,19 @@ export class MovieService {
     };
     return axios.post(`${this.URL}/image`, image, config);
   }
+  public static getMovieScore(movieId: number): Promise<AxiosResponse<number>>{
+    return axios.get(`${this.URL}/score/${movieId}`);
+  }
+  public static getMoviePopularity(movieId: number): Promise<AxiosResponse<number>>{
+    return axios.get(`${this.URL}/popularity/${movieId}`);
+  }
   public static updateMovieById(id: number): Promise<MovieData> {
     return
   }
   public static deleteMovieById(id: number): Promise<MovieData> {
     return
+  }
+  public static getMovieData(): Promise<AxiosResponse<MovieData[]>>{
+    return axios.get(`${this.URL}/moviedata`)
   }
 }

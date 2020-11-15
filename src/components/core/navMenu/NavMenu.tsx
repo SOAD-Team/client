@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Container, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 
@@ -8,7 +8,7 @@ export class NavMenu extends Component {
   static displayName = NavMenu.name;
   state: any;
 
-  constructor (props: any) {
+  constructor(props: any) {
     super(props);
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
@@ -17,13 +17,13 @@ export class NavMenu extends Component {
     };
   }
 
-  toggleNavbar () {
+  toggleNavbar() {
     this.setState({
       collapsed: !this.state.collapsed
     });
   }
 
-  render () {
+  render() {
     return (
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
@@ -33,10 +33,25 @@ export class NavMenu extends Component {
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/createMovie">Create a Movie</NavLink>
+                  <UncontrolledDropdown>
+                    <DropdownToggle>
+                      Movies
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem>
+                        <NavLink tag={Link} className="text-dark" to="/createMovie">Create a Movie</NavLink>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <NavLink tag={Link} className="text-dark" to="/updateMovie">Update my movies</NavLink>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/register">Sign Up</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/mvSearch">Movie Search</NavLink>
                 </NavItem>
               </ul>
             </Collapse>

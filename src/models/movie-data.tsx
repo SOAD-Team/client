@@ -11,14 +11,17 @@ export class MovieData {
         public idMovie?: number,
         public registerDate: Date = new Date(),
         public name: string = '',
+        public title: string = '',
         public year: number = 1900,
         public genres: Genre[] = [],
         public languages: Language[] = [],
         public platFav: boolean = false,
         public image: Image = Image.Empty,
         public styles: Style[] = [],
+        public director: string = "",
         public metaScore?: number,
-        public imdb?: number) { }
+        public imdb?: number
+        ) { }
 
     public static get Empty(): MovieData { return new MovieData() }
 
