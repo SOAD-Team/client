@@ -19,6 +19,8 @@ export class MovieData {
         public image: Image = Image.Empty,
         public styles: Style[] = [],
         public director: string = "",
+        public movieDataLanguage: Language[] = [],
+        public movieDataGenre: Genre[] = [],
         public metaScore?: number,
         public imdb?: number,
         public imageMongoId?: string

@@ -21,8 +21,8 @@ export class MovieService {
   public static getMovies(): Promise<MovieData[]> {
     return
   }
-  public static getMovieById(id: number): Promise<MovieData> {
-    return;
+  public static getMovieById(id: number): Promise<AxiosResponse<MovieData>> {
+    return axios.get(`${this.URL}/moviebyid/${id}`);
   }
   public static getMoviesFromUser(userId: number) : Promise<AxiosResponse<MovieData[]>>{
     return axios.get(`${this.URL}/user/${userId}`);
