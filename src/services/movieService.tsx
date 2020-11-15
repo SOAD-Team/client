@@ -15,16 +15,16 @@ export class MovieService {
   public static async getGenres(): Promise<AxiosResponse<Genre[]>> {
     return axios.get(`${this.URL}/genres`);
   }
-  public static getLanguages(): Promise<AxiosResponse<Language[]>> {
+  public static async getLanguages(): Promise<AxiosResponse<Language[]>> {
     return axios.get(`${this.URL}/languages`);
   }
   public static getMovies(): Promise<MovieData[]> {
     return
   }
-  public static getMovieById(id: number): Promise<AxiosResponse<MovieData>> {
+  public static async getMovieById(id: number): Promise<AxiosResponse<MovieData>> {
     return axios.get(`${this.URL}/moviebyid/${id}`);
   }
-  public static getMoviesFromUser(userId: number) : Promise<AxiosResponse<MovieData[]>>{
+  public static async getMoviesFromUser(userId: number) : Promise<AxiosResponse<MovieData[]>>{
     return axios.get(`${this.URL}/user/${userId}`);
   }
   public static async createMovie(movie: MovieData): Promise<AxiosResponse<MovieData>> {
@@ -53,7 +53,7 @@ export class MovieService {
   public static deleteMovieById(id: number): Promise<MovieData> {
     return
   }
-  public static getMovieData(): Promise<AxiosResponse<MovieData[]>>{
+  public static async getMovieData(): Promise<AxiosResponse<MovieData[]>>{
     return axios.get(`${this.URL}/moviedata`)
   }
 }

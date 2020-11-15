@@ -4,6 +4,8 @@
     ],
     "cSpell.ignoreWords": [
         "esnext",
+        "moviebyid",
+        "moviedata",
         "registeruser"
     ]
 }

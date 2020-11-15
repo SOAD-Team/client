@@ -33,7 +33,7 @@ export default class MovieUpdaterList extends Component {
 
     async loadData() {
         const data: IData[] = [];
-        const movies: MovieData[] = (await MovieService.getMoviesFromUser(User.local.IdUser)).data;
+        const movies: MovieData[] = (await MovieService.getMoviesFromUser(User.local.idUser)).data;
 
         for (const movie of movies) {
             const score: number = (await MovieService.getMovieScore(movie.idMovie)).data;
@@ -145,7 +145,7 @@ export default class MovieUpdaterList extends Component {
                                     <td>{movie.value.metaScore}</td>
                                     <td>{movie.value.imdb}</td>
                                     <td>
-                                        <Button href={"movieUpdate/" + movie.value} onClick={e => this.editMovieInfo(e, movie.value)}>Edit</Button>
+                                        <Button href={`movieupdate/${movie.value.idMovie}`} onClick={e => this.editMovieInfo(e, movie.value)}>Edit</Button>
                                     </td>
                                 </tr>
                             )}
