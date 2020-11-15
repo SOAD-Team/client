@@ -75,18 +75,16 @@ export default class MovieInfo extends Component {
 
   getAllLanguages(){
     var languages: string = "";
-    this.state.languages.map(lang => {
+    this.state.languages.forEach(lang => {
       languages = languages + lang + " ";
-      return languages;
     });
     return languages;
   }
 
   getAllGenres(){
     var genres: string = "";
-    this.state.genres.map(gen => {
+    this.state.genres.forEach(gen => {
       genres = genres + gen + " ";
-      return genres;
     });
     return genres;
   }
