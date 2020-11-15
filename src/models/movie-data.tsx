@@ -20,7 +20,8 @@ export class MovieData {
         public styles: Style[] = [],
         public director: string = "",
         public metaScore?: number,
-        public imdb?: number
+        public imdb?: number,
+        public imageMongoId?: string
         ) { }
 
     public static get Empty(): MovieData { return new MovieData() }
