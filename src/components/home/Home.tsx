@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
-import { NavMenu } from './NavMenu';
+import { NavMenu } from '../core/navMenu/NavMenu';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();

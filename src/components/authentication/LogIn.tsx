@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Container, Button, Fade, Form, FormGroup, Label, Input, NavLink, NavItem } from 'reactstrap';
-import { InitMenu } from './InitMenu';
-import Carousel1 from './Carousel';
+import { InitMenu } from '../core/initMenu/InitMenu';
+import Carousel1 from '../core/carousel/Carousel';
 import { Link } from 'react-router-dom';
-import './NavMenu.css';
+import '../core/navMenu/NavMenu.css';
 import axios from 'axios';
 import Cookies from 'universal-cookie'
+import { RegisterService } from '../../services/registerService';
+import userEvent from '@testing-library/user-event';
+import { User } from '../../models/user';
 
 
 const baseUrl="http://localhost:3001/user"
@@ -34,27 +37,25 @@ export class LogIn extends Component {
     }
 
     iniciarSesion=async()=>{
-      await axios.get(baseUrl, {params: {Email: this.state.form.Email, Password: this.state.form.Password}})
-      .then(response=>{
-        return response.data;
-        
-      })
-      .then(response=>{
-        if(response.length>0){
-          var respuesta=response[0];
-          cookies.set('Name', respuesta.Name, {path:"/"})
-          cookies.set('LastName', respuesta.LastName, {path:"/"})
-          cookies.set('Email', respuesta.Email, {path:"/"})
-          alert(`Bienvenido ${respuesta.Name} ${respuesta.LastName}`)
+      try {
+        User.local = (await (RegisterService.logIn(this.state.form.Email, this.state.form.Password))).data;
+      console.log(User.local);
+      if(User.local){
+          const respuesta:User=User.local;
+          cookies.set('Name', respuesta.name, {path:"/"})
+          cookies.set('LastName', respuesta.lastName, {path:"/"})
+          cookies.set('Email', respuesta.email, {path:"/"})
+          alert(`Bienvenido ${respuesta.name} ${respuesta.lastName}`)
           window.location.href= "/home";
-        }else{
-          alert ('Elusuario o la contraseña no son correctos')
-        }
-      })
-      .catch(error=>{
-        console.log(error);
-      })
-    }
+      }
+      } catch (error) {
+        alert ('Elusuario o la contraseña no son correctos')
+        
+      }
+      
+      }
+      
+    
   
     render () {
       return (

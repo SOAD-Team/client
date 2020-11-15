@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Button, Fade, Form, FormGroup, Label, Input, NavLink, NavItem } from 'reactstrap';
-import { InitMenu } from './InitMenu';
+import { InitMenu } from './core/initMenu/InitMenu';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 

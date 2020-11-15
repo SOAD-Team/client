@@ -12,6 +12,7 @@ import {
 } from "reactstrap";
 import { User } from "../../models/user";
 import { RegisterService } from "../../services/registerService";
+import { InitMenu } from '../core/initMenu/InitMenu';
 
 interface stateValue {
   value: User;
@@ -45,6 +46,7 @@ export default class Register extends Component {
     const data = await RegisterService.postUserInfo(this.state.value);
     if(data === 0){
       alert("User is already registered!");
+      window.location.href= './';
     }else{
       alert("User Registered!");
     }
@@ -67,7 +69,7 @@ export default class Register extends Component {
   handlePassword(event: any){
     const target = event.target;
     const valueEntered = target.value;
-    if(this.state.value.Password === valueEntered){
+    if(this.state.value.password === valueEntered){
       const stateValue : stateValue = {
         ...this.state,
         passMatch : true
@@ -85,6 +87,9 @@ export default class Register extends Component {
 
   render() {
     return (
+      <div>
+        <InitMenu />
+
       <Jumbotron>
         <h1 id="formLabel">Create your Account!</h1>
         <br></br>
@@ -208,6 +213,7 @@ export default class Register extends Component {
           <Button onClick={this.handleSignUp} disabled={!this.state.passMatch}>Submit</Button>
         </Form>
       </Jumbotron>
+      </div>
     );
   }
 }

@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { Carousel, CarouselItem, CarouselControl, CarouselIndicators, CarouselCaption } from 'reactstrap';
-import './NavMenu.css';
+import '../navMenu/NavMenu.css';
 
 
 const items = [
     {
-        src: require('../assets/img/cine.jpg'),
+        src: require('../../../assets/img/cine.jpg'),
         altText: 'Best Movies',
         caption: 'Best Movies',
     },
     {
-        src: require('../assets/img/momentos.jpg'),
+        src: require('../../../assets/img/momentos.jpg'),
         altText: 'Best Moments',
         caption: 'Best Moments'
     },
     {
-        src: require('../assets/img/experiencias.jpg'),
+        src: require('../../../assets/img/experiencias.jpg'),
         altText: 'Best Experiences',
         caption: 'Best Experiences'
     }
