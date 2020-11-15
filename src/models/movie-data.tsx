@@ -6,11 +6,12 @@ import { User } from "./user";
 
 export class MovieData {
     constructor(
-        public idUser: number = User.local.IdUser,
+        public idUser: number = User.local.idUser,
         public idMovieData?: number,
         public idMovie?: number,
         public registerDate: Date = new Date(),
         public name: string = '',
+        public title: string = '',
         public year: number = 1900,
         public genres: Genre[] = [],
         public languages: Language[] = [],
@@ -18,8 +19,11 @@ export class MovieData {
         public image: Image = Image.Empty,
         public styles: Style[] = [],
         public director: string = "",
+        public movieDataLanguage: Language[] = [],
+        public movieDataGenre: Genre[] = [],
         public metaScore?: number,
-        public imdb?: number
+        public imdb?: number,
+        public imageMongoId?: string
         ) { }
 
     public static get Empty(): MovieData { return new MovieData() }

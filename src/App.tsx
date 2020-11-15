@@ -1,25 +1,34 @@
 import React, { Component } from "react";
 import { Route } from 'react-router';
-import { Layout } from './components/core/layout/Layout';
 import { Home } from './components/home/Home'
 import "./App.css";
 import MovieCreator from "./components/movies/movie-creator/MovieCreator";
 import MovieUpdaterList from "./components/movies/movie-update-list/MovieUpdaterList";
 import Register from "./components/register/Register";
 import MovieUpdater from "./components/movies/movie-update/MovieUpdater";
+import Register from "./components/register/Register";
+import { LogIn } from "./components/authentication/LogIn";
+import 'bootstrap/dist/css/bootstrap.min.css'
+import MovieSearch from "./components/movies/movie-search/MovieSearch";
+import MovieInfo from "./components/movies/movie-info/MovieInfo";
+
+
 
 export default class App extends Component {
   static displayName = App.name;
 
   render () {
     return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/createMovie' component={MovieCreator} />
-        <Route path='/updateMovie' component={MovieUpdaterList} />
+      <div>
+        <Route path='/home' component={Home} />
+        <Route exact path='/' component={LogIn} />
         <Route path='/register' component={Register} />
+        <Route path='/updateMovie' component={MovieUpdater} />
+        <Route path='/createMovie' component={MovieCreator} />
+        <Route path='/mvSearch' component={MovieSearch} />
+        <Route path='/movieinfo/:id' component={MovieInfo} />
         <Route path='/movieUpdate/:movie' component={MovieUpdater} />
-      </Layout>
+      </div>
     );
   }
 }

@@ -11,6 +11,7 @@ import { Genre } from '../../../models/genre';
 import { IData } from '../../../models/data';
 import { Image } from '../../../models/image';
 import { DotLoader } from 'react-spinners';
+import { NavMenu } from '../../core/navMenu/NavMenu';
 
 interface IValue {
   value: MovieData, loading: boolean
@@ -175,7 +176,8 @@ export default class MovieCreator extends Component {
       </div>
       : this.renderForm();
     return (
-      <div >
+      <div>
+        <NavMenu/>
         <h1 id="formLabel" >Create a Movie!</h1>
         {contents}
       </div>
