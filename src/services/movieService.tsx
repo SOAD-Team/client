@@ -44,7 +44,10 @@ export class MovieService {
   public static getMoviePopularity(movieId: number): Promise<AxiosResponse<number>>{
     return axios.get(`${this.URL}/popularity/${movieId}`);
   }
-  public static updateMovieById(id: number): Promise<MovieData> {
+  public static updateMovieById(movie: MovieData): Promise<AxiosResponse<MovieData>> {
+    return
+  }
+  public static updateImageById(image: Image): Promise<AxiosResponse<Image>> {
     return
   }
   public static deleteMovieById(id: number): Promise<MovieData> {
