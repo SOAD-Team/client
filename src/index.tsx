@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import registerServiceWorker from './serviceWorker';
 import * as Constants from './constants'
+import "../src/web.config"
 
 console.log('API_URL => ', Constants.apiUrl);
 
