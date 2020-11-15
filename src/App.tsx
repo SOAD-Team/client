@@ -8,6 +8,8 @@ import Register from "./components/register/Register";
 import { LogIn } from "./components/authentication/LogIn";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import MovieSearch from "./components/movie-search/MovieSearch";
+import MovieSearch from "./components/movies/movie-search/MovieSearch";
+
 
 
 export default class App extends Component {

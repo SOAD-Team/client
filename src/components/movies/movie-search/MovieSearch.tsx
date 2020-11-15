@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { Button, Col, Form, FormGroup, Input, Jumbotron, Media, Row } from 'reactstrap';
-import { MovieData } from '../../models/movie-data';
-import { MovieService } from '../../services/movieService';
+import { MovieData } from '../../../models/movie-data';
+import { MovieService } from '../../../services/movieService';
+import * as Constants from '../../../constants';
 import './MovieSearch.css'
 
 
@@ -17,6 +18,8 @@ interface stateValue {
 export default class MovieSearch extends Component {
   
   state: stateValue;
+
+  URL: string = `${Constants.apiUrl}movie`;
 
   constructor(props) {
     super(props);
@@ -49,9 +52,10 @@ export default class MovieSearch extends Component {
       allData : movies
     }
     this.setState(stateValue);
+    console.log(this.state.allData);
   }
 
-  handleChange(event: any){
+  handleChange(event:  any){
     const target = event.target;
     const value = target.value;
     const stateValue: stateValue = {
@@ -74,6 +78,10 @@ export default class MovieSearch extends Component {
     };
 
     this.setState(stateValue);
+  }
+
+  getImage(id: string){
+    return this.URL + "/movieimages/" + id; 
   }
 
   render() {    
@@ -105,9 +113,12 @@ export default class MovieSearch extends Component {
         {this.state.value.map(movie =>
           <div>       
             <Media key={movie.idMovie}>
+              <Media left top href="#">
+                <img className="photo" src={this.getImage(movie.imageMongoId)} alt="new"/>
+              </Media>
               <Media body>
                 <Media heading>
-                  {movie.title}
+                  <a href={"movieinfo/" + movie.idMovie} className="link">{movie.title}</a>
                 </Media>
                 Year: {movie.year}
               </Media>
