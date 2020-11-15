@@ -3,9 +3,6 @@ import { Jumbotron, Media } from 'reactstrap';
 import { MovieData } from '../../../models/movie-data';
 import { MovieService } from '../../../services/movieService';
 import './MovieInfo.css'
-import * as Constants from '../../../constants';
-import { Language } from '../../../models/language';
-import { Genre } from '../../../models/genre';
 import { NavMenu } from '../../core/navMenu/NavMenu';
 
 
@@ -20,9 +17,6 @@ interface stateValue {
 export default class MovieInfo extends Component {
 
   state: stateValue;
-
-  URL: string = `${Constants.apiUrl}movie`;
-
 
   constructor(props) {
     super(props);
@@ -48,14 +42,14 @@ export default class MovieInfo extends Component {
     var langNames: string[] = [];
     var genNames: string[] = [];
 
-    for (let movieLang of movie.languages){
-      if(movieLang != null){
+    for (let movieLang of movie.languages) {
+      if (movieLang != null) {
         langNames.push(movieLang.name);
       }
     }
 
-    for(let movieGen of movie.genres){
-      if(movieGen != null){
+    for (let movieGen of movie.genres) {
+      if (movieGen != null) {
         genNames.push(movieGen.name);
       }
     }
@@ -67,10 +61,6 @@ export default class MovieInfo extends Component {
       genres: genNames,
     }
     this.setState(stateValue);
-  }
-
-  getImage(id: number){
-    return this.URL + "/movieimages/" + id; 
   }
 
   getAllLanguages() {
@@ -88,22 +78,18 @@ export default class MovieInfo extends Component {
     });
     return genres;
   }
-
-
+  
   render() {
     return (
-      <Jumbotron>{ this.state.value != null &&
-        <div>
-          <h1 id="formLabel">{this.state.value.name}</h1>
-          <br></br>       
-          <Media key={this.state.value.idMovie}>
-            <Media left top>
-              <Media object src={this.getImage(this.state.value.image.id)} alt="new" className="photoInfo"/>
-            </Media>
-            <Media body className="movieInfo">
-                Year: {this.state.value.year}
-              <Media heading>
-                <br></br>
+      <div>
+        <NavMenu />
+        <Jumbotron>{this.state.value != null &&
+          <div>
+            <h1 id="formLabel">{this.state.value.name}</h1>
+            <br></br>
+            <Media key={this.state.value.idMovie}>
+              <Media left top>
+                <Media object src={MovieService.getImageUrl(this.state.value.image.id)} alt="new" className="photoInfo" />
               </Media>
               <Media body className="movieInfo">
                 Year: {this.state.value.year}
@@ -111,7 +97,7 @@ export default class MovieInfo extends Component {
                   <br></br>
                 </Media>
                 <Media body className="movieInfo">
-                  Diretor: {this.state.value.director}
+                  Director: {this.state.value.director}
                 </Media>
                 <Media heading>
                   <br></br>
@@ -135,32 +121,8 @@ export default class MovieInfo extends Component {
                   <br></br>
                 </Media>
                 <Media body>
-                  Genres: {this.getAllLanguages()}
+                  Genres: {this.getAllGenres()}
                 </Media>
-              </Media>
-              <Media heading>
-                <br></br>
-              </Media>
-              <Media body>
-                Meta Score: {this.state.value.metaScore}
-              </Media>
-              <Media body>
-                <br></br>
-              </Media>
-              <Media body>
-                IMBD: {this.state.value.metaScore}
-              </Media>
-              <Media heading>
-                <br></br>
-              </Media>
-              <Media body>
-                Languages: {this.getAllLanguages()}
-              </Media>
-              <Media heading>
-                <br></br>
-              </Media>
-              <Media body>
-                Genres: {this.getAllGenres()}
               </Media>
             </Media>
             <br></br>

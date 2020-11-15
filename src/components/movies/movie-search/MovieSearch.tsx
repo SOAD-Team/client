@@ -81,47 +81,39 @@ export default class MovieSearch extends Component {
     this.setState(stateValue);
   }
 
-  getImage(id: string) {
-    return this.URL + "/movieimages/" + id;
-  }
-
   render() {
     return (
       <div>
         <NavMenu />
-      <Jumbotron>
-        <h1 id="formLabel">Search for a movie!</h1>
-        <br></br>
-        <Form>
-          <Row form>
-            <Col md={6}>
-              <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <Input
-                  type="text"
-                  name="Name"
-                  id="kwInput"
-                  placeholder="Enter Name Keyword"
-                  onChange={this.handleChange}
-                />
-                <br></br>
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <Button onClick={this.handleSearch}>Search</Button>
-              </FormGroup>
-            </Col>
-          </Row>
-        </Form>
-        {this.state.value.map(movie =>
-          <div>       
-            <Media key={movie.idMovie}>
-              <Media left top href={"movieinfo/" + movie.idMovie}>
-                <img className="photo" src={this.getImage(movie.imageMongoId)} alt="new"/>
-              </Media>
-              <Media body>
-                <Media heading>
-                  <a href={"movieinfo/" + movie.idMovie} className="link">{movie.title}</a>
+        <Jumbotron>
+          <h1 id="formLabel">Search for a movie!</h1>
+          <br></br>
+          <Form>
+            <Row form>
+              <Col md={6}>
+                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                  <Input
+                    type="text"
+                    name="Name"
+                    id="kwInput"
+                    placeholder="Enter Name Keyword"
+                    onChange={this.handleChange}
+                  />
+                  <br></br>
+                </FormGroup>
+              </Col>
+              <Col>
+                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                  <Button onClick={this.handleSearch}>Search</Button>
+                </FormGroup>
+              </Col>
+            </Row>
+          </Form>
+          {this.state.value.map(movie =>
+            <div>
+              <Media key={movie.idMovie}>
+                <Media left top href={"movieinfo/" + movie.idMovie}>
+                  <img className="photo" src={MovieService.getImageUrlByString(movie.imageMongoId)} alt="new" />
                 </Media>
                 <Media body>
                   <Media heading>

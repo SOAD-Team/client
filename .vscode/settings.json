@@ -6,6 +6,8 @@
         "esnext",
         "moviebyid",
         "moviedata",
+        "movieimages",
+        "movieinfo",
         "registeruser"
     ]
 }

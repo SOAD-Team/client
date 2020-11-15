@@ -68,7 +68,7 @@ export default class MovieUpdater extends Component {
         movieValue.image =
         {
             objectImage: fd,
-            url: `${this.URL}/movieImages/${movieValue.imageMongoId}`
+            url: MovieService.getImageUrl(movieValue.image.id)
         }
 
         this.setState({ ...this.state, value: movieValue, loading: false });
@@ -289,7 +289,7 @@ export default class MovieUpdater extends Component {
                         <Col md={9}>
                             <FormGroup>
                                 <Label>Image:</Label>
-                                <CustomInput type="file" onChange={this.handleImage} id="imageUp" name='image' required />
+                                <CustomInput type="file" onChange={this.handleImage} id="imageUp" name='image'/>
                             </FormGroup>
                         </Col>
                     </Row>

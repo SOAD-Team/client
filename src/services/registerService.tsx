@@ -1,7 +1,6 @@
 import * as Constants from '../constants'
 import { User } from "../models/user";
 import axios, {AxiosResponse} from 'axios';
-import { promises } from 'dns';
 
 export class RegisterService {
   private static URL = Constants.apiUrl;

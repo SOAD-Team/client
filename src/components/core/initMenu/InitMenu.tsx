@@ -39,7 +39,7 @@ export class InitMenu extends Component {
                       <NavLink tag={Link} className="text-white" to="/">Log In</NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink tag={Link} className="text-white" to="/register">Sing In</NavLink>
+                      <NavLink tag={Link} className="text-white" to="/register">Sing Up</NavLink>
                     </NavItem>
                   </ul>
                 </Collapse>
