@@ -67,7 +67,7 @@ export class NavMenu extends Component {
                         <NavLink tag={Link} className="text-dark" to="/mvSearch">Movie Search</NavLink>
                       </DropdownItem>
                       <DropdownItem>
-                        <NavLink tag={Link} className="text-dark" to="/updateMovie">Movie Recommendations</NavLink>
+                        <NavLink tag={Link} className="text-dark" to="/mvRecommendations">Movie Recommendations</NavLink>
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>

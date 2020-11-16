@@ -9,7 +9,7 @@ import { LogIn } from "./components/authentication/LogIn";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import MovieSearch from "./components/movies/movie-search/MovieSearch";
 import MovieInfo from "./components/movies/movie-info/MovieInfo";
-
+import MovieRecommendations from "./components/movies/movie-recommendations/MovieRecommendations";
 
 
 export default class App extends Component {
@@ -24,6 +24,7 @@ export default class App extends Component {
         <Route path='/updateMovie' component={MovieUpdater} />
         <Route path='/createMovie' component={MovieCreator} />
         <Route path='/mvSearch' component={MovieSearch} />
+        <Route path='/mvRecommendations' component={MovieRecommendations} />
         <Route path='/movieinfo/:id' component={MovieInfo} />
       </div>
     );
