@@ -1,15 +1,12 @@
 import * as Constants from '../constants'
 import { User } from "../models/user";
 import axios, {AxiosResponse} from 'axios';
-import { promises } from 'dns';
 
 export class RegisterService {
   private static URL = Constants.apiUrl;
 
   public static async logIn(email:string, password:string):Promise<AxiosResponse<User>>{
     return axios.post(`${this.URL}registeruser/login`,{email, password});
-    
-
   }
 
 
@@ -25,7 +22,4 @@ export class RegisterService {
 
       return data;
   }
-
-
-
 }

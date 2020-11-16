@@ -4,6 +4,13 @@
     ],
     "cSpell.ignoreWords": [
         "esnext",
-        "registeruser"
+        "moviebyid",
+        "moviedata",
+        "movieimages",
+        "movieinfo",
+        "mymovie",
+        "navfondo",
+        "registeruser",
+        "toggleable"
     ]
 }

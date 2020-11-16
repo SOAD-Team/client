@@ -12,11 +12,11 @@ export class NavMenu extends Component {
   static displayName = NavMenu.name;
   state: any;
 
-  name=cookies.get('Name');
-  lastname=cookies.get('LastName');
-  
+  name = cookies.get('Name');
+  lastname = cookies.get('LastName');
 
-  constructor (props: any) {
+
+  constructor(props: any) {
     super(props);
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
@@ -25,35 +25,34 @@ export class NavMenu extends Component {
     };
   }
 
-  toggleNavbar () {
+  toggleNavbar() {
     this.setState({
       collapsed: !this.state.collapsed
     });
   }
 
-  logOut=()=> {
-    cookies.remove('Name', {path: "/"});
-    cookies.remove('LastName', {path: "/"});
-    cookies.remove('Email', {path: "/"});
-    window.location.href= './';
-
-
+  logOut = () => {
+    cookies.remove('Name', { path: "/" });
+    cookies.remove('LastName', { path: "/" });
+    cookies.remove('Email', { path: "/" });
+    window.location.href = './';
   }
 
-  render () {
+  render() {
     return (
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow navfondo mb-3" light>
           <Container>
-          <NavbarBrand tag={Link} to="/home">
-                  <img src={mymovie} alt="mymovie"/>
-                </NavbarBrand>
+            <NavbarBrand tag={Link} to="/home">
+              <img src={mymovie} alt="mymovie" />
+            </NavbarBrand>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
-              <NavItem>
+
+                <NavItem>
                   <UncontrolledDropdown>
-                    <DropdownToggle>
+                    <DropdownToggle caret className="text-white">
                       Movies
                     </DropdownToggle>
                     <DropdownMenu>
@@ -64,7 +63,7 @@ export class NavMenu extends Component {
                         <NavLink tag={Link} className="text-dark" to="/updateMovie">Update my movies</NavLink>
                       </DropdownItem>
                       <DropdownItem>
-                        <NavLink tag={Link} className="text-dark" to="/mvSearch">Movie Search</NavLink>
+                        <NavLink caret tag={Link} className="text-dark" to="/mvSearch">Movie Search</NavLink>
                       </DropdownItem>
                       <DropdownItem>
                         <NavLink tag={Link} className="text-dark" to="/mvRecommendations">Movie Recommendations</NavLink>
@@ -72,6 +71,7 @@ export class NavMenu extends Component {
                     </DropdownMenu>
                   </UncontrolledDropdown>
                 </NavItem>
+
                 <NavItem>
                   <UncontrolledButtonDropdown>
                     <DropdownToggle caret className="text-white">
@@ -84,6 +84,7 @@ export class NavMenu extends Component {
                     </DropdownMenu>
                   </UncontrolledButtonDropdown>
                 </NavItem>
+
               </ul>
             </Collapse>
           </Container>

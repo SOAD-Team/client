@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Button, Col, Form, FormGroup, Input, Jumbotron, Media, Row } from 'reactstrap';
 import { MovieData } from '../../../models/movie-data';
 import { MovieService } from '../../../services/movieService';
 import * as Constants from '../../../constants';
 import './MovieSearch.css'
 import { NavMenu } from '../../core/navMenu/NavMenu';
+import { DotLoader } from 'react-spinners';
 
 
 interface stateValue {
@@ -17,7 +18,7 @@ interface stateValue {
 
 
 export default class MovieSearch extends Component {
-  
+
   state: stateValue;
 
   URL: string = `${Constants.apiUrl}movie`;
@@ -27,7 +28,7 @@ export default class MovieSearch extends Component {
     this.state = {
       value: [],
       loading: false,
-      selectedId : -1,
+      selectedId: -1,
       searchWord: "",
       allData: []
     }
@@ -40,23 +41,23 @@ export default class MovieSearch extends Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.loadData();
   }
 
   async loadData() {
 
     const movies: MovieData[] = (await MovieService.getMovieData()).data;
-    
+
     const stateValue: stateValue = {
       ...this.state,
-      allData : movies
+      allData: movies
     }
     this.setState(stateValue);
     console.log(this.state.allData);
   }
 
-  handleChange(event:  any){
+  handleChange(event: any) {
     const target = event.target;
     const value = target.value;
     const stateValue: stateValue = {
@@ -67,70 +68,83 @@ export default class MovieSearch extends Component {
     this.setState(stateValue);
   }
 
-  handleSearch(){
-    var filtered : MovieData[];
+  handleSearch() {
+    
+    this.setState({...this.state, loading: true});
+
+    var filtered: MovieData[];
     const re = new RegExp(this.state.searchWord, 'i');
 
     filtered = this.state.allData.filter(movie => Object.values(movie).some(val => typeof val === "string" && val.match(re)));
 
-    const stateValue : stateValue = {
+    const stateValue: stateValue = {
       ...this.state,
-      value : filtered,
+      loading: false,
+      value: filtered
     };
 
     this.setState(stateValue);
   }
 
-  getImage(id: string){
-    return this.URL + "/movieimages/" + id; 
-  }
-
-  render() {    
+  render() {
+    let contents: any = this.state.loading
+            ? <div style={{
+                position: 'absolute', left: '50%', top: '50%',
+                transform: 'translate(-50%, -50%)'
+            }}>
+                <DotLoader size={100} loading={this.state.loading} />
+            </div>
+            : this.renderMovies();
     return (
       <div>
-        <NavMenu/>
-      <Jumbotron>
-        <h1 id="formLabel">Search for a movie!</h1>
-        <br></br>
-        <Form>
-          <Row form>
-            <Col md={6}>
-              <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <Input
-                  type="text"
-                  name="Name"
-                  id="kwInput"
-                  placeholder="Enter Name Keyword"
-                  onChange={this.handleChange}
-                />
-                <br></br>
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <Button onClick={this.handleSearch}>Search</Button>
-              </FormGroup>
-            </Col>
-          </Row>
-        </Form>
+        <NavMenu />
+        <Jumbotron>
+          <h1 id="formLabel">Search for a movie!</h1>
+          <br></br>
+          <Form>
+            <Row form>
+              <Col md={6}>
+                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                  <Input
+                    type="text"
+                    name="Name"
+                    id="kwInput"
+                    placeholder="Enter Name Keyword"
+                    onChange={this.handleChange}
+                  />
+                  <br></br>
+                </FormGroup>
+              </Col>
+              <Col>
+                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                  <Button onClick={this.handleSearch}>Search</Button>
+                </FormGroup>
+              </Col>
+            </Row>
+          </Form>
+          {contents}
+        </Jumbotron>
+      </div>
+    )
+  }
+  renderMovies() {
+    return (
+      <div>
         {this.state.value.map(movie =>
-          <div>       
+          <div>
             <Media key={movie.idMovie}>
-              <Media left top href="#">
-                <img className="photo" src={this.getImage(movie.imageMongoId)} alt="new"/>
+              <Media left top href={"movieinfo/" + movie.idMovie}>
+                <img className="photo" src={MovieService.getImageUrl(movie.imageMongoId)} alt="new" />
               </Media>
               <Media body>
                 <Media heading>
                   <a href={"movieinfo/" + movie.idMovie} className="link">{movie.title}</a>
                 </Media>
-                Year: {movie.year}
+          Year: {movie.year}
               </Media>
             </Media>
             <br></br>
-          </div>
-        )}
-    </Jumbotron>
-    </div>
-    )
+          </div>)}
+      </div>)
   }
 }
