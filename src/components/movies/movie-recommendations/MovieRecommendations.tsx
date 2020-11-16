@@ -4,7 +4,7 @@ import { MovieService } from '../../../services/movieService'
 import { Language } from '../../../models/language';
 import { Style } from '../../../models/style';
 import CreatableSelect from 'react-select/creatable';
-import { Media, Row, Col, Form, FormGroup, Label, Input, Button, CustomInput, Jumbotron } from 'reactstrap';
+import { Row, Col, Form, FormGroup, Label, Input, Button, Jumbotron } from 'reactstrap';
 import { Validators } from '../../../helpers/validators';
 import { IOption } from '../../shared/IOption';
 import { Genre } from '../../../models/genre';
