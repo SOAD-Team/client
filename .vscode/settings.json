@@ -8,6 +8,9 @@
         "moviedata",
         "movieimages",
         "movieinfo",
-        "registeruser"
+        "mymovie",
+        "navfondo",
+        "registeruser",
+        "toggleable"
     ]
 }

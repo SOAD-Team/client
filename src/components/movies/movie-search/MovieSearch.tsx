@@ -5,6 +5,7 @@ import { MovieService } from '../../../services/movieService';
 import * as Constants from '../../../constants';
 import './MovieSearch.css'
 import { NavMenu } from '../../core/navMenu/NavMenu';
+import { DotLoader } from 'react-spinners';
 
 
 interface stateValue {
@@ -68,6 +69,9 @@ export default class MovieSearch extends Component {
   }
 
   handleSearch() {
+    
+    this.setState({...this.state, loading: true});
+
     var filtered: MovieData[];
     const re = new RegExp(this.state.searchWord, 'i');
 
@@ -75,13 +79,22 @@ export default class MovieSearch extends Component {
 
     const stateValue: stateValue = {
       ...this.state,
-      value: filtered,
+      loading: false,
+      value: filtered
     };
 
     this.setState(stateValue);
   }
 
   render() {
+    let contents: any = this.state.loading
+            ? <div style={{
+                position: 'absolute', left: '50%', top: '50%',
+                transform: 'translate(-50%, -50%)'
+            }}>
+                <DotLoader size={100} loading={this.state.loading} />
+            </div>
+            : this.renderMovies();
     return (
       <div>
         <NavMenu />
@@ -109,24 +122,29 @@ export default class MovieSearch extends Component {
               </Col>
             </Row>
           </Form>
-          {this.state.value.map(movie =>
-            <div>
-              <Media key={movie.idMovie}>
-                <Media left top href={"movieinfo/" + movie.idMovie}>
-                  <img className="photo" src={MovieService.getImageUrl(movie.imageMongoId)} alt="new" />
-                </Media>
-                <Media body>
-                  <Media heading>
-                    <a href={"movieinfo/" + movie.idMovie} className="link">{movie.title}</a>
-                  </Media>
-                Year: {movie.year}
-                </Media>
-              </Media>
-              <br></br>
-            </div>
-          )}
+          {contents}
         </Jumbotron>
       </div>
     )
+  }
+  renderMovies() {
+    return (
+      <div>
+        {this.state.value.map(movie =>
+          <div>
+            <Media key={movie.idMovie}>
+              <Media left top href={"movieinfo/" + movie.idMovie}>
+                <img className="photo" src={MovieService.getImageUrl(movie.imageMongoId)} alt="new" />
+              </Media>
+              <Media body>
+                <Media heading>
+                  <a href={"movieinfo/" + movie.idMovie} className="link">{movie.title}</a>
+                </Media>
+          Year: {movie.year}
+              </Media>
+            </Media>
+            <br></br>
+          </div>)}
+      </div>)
   }
 }

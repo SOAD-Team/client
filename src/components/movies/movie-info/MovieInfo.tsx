@@ -4,6 +4,7 @@ import { MovieData } from '../../../models/movie-data';
 import { MovieService } from '../../../services/movieService';
 import './MovieInfo.css'
 import { NavMenu } from '../../core/navMenu/NavMenu';
+import { DotLoader } from 'react-spinners';
 
 
 interface stateValue {
@@ -22,7 +23,7 @@ export default class MovieInfo extends Component {
     super(props);
     this.state = {
       value: null,
-      loading: false,
+      loading: true,
       id: props.match.params.id,
       languages: [],
       genres: []
@@ -56,6 +57,7 @@ export default class MovieInfo extends Component {
 
     const stateValue: stateValue = {
       ...this.state,
+      loading: false,
       value: movie,
       languages: langNames,
       genres: genNames,
@@ -80,9 +82,26 @@ export default class MovieInfo extends Component {
   }
   
   render() {
-    return (
+    let contents: any = this.state.loading
+            ? <div style={{
+                position: 'absolute', left: '50%', top: '50%',
+                transform: 'translate(-50%, -50%)'
+            }}>
+                <DotLoader size={100} loading={this.state.loading} />
+            </div>
+            : this.renderInfo();
+        return (
+            <div >
+                <NavMenu />
+                {contents}
+            </div>
+        )
+  }
+
+  renderInfo()
+  {
+    return(
       <div>
-        <NavMenu />
         <Jumbotron>{this.state.value != null &&
           <div>
             <h1 id="formLabel">{this.state.value.name}</h1>
@@ -130,5 +149,6 @@ export default class MovieInfo extends Component {
         </Jumbotron>
       </div>
     )
+
   }
 }

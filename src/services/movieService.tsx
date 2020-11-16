@@ -45,6 +45,7 @@ export class MovieService {
     return axios.get(`${this.URL}/popularity/${movieId}`);
   }
   public static updateMovieById(movie: MovieData): Promise<AxiosResponse<MovieData>> {
+    console.log(movie);
     return axios.post(`${this.URL}/update`, movie);
   }
   // public static deleteMovieById(id: number): Promise<MovieData> {
