@@ -25,6 +25,8 @@ export default class MovieUpdater extends Component {
     languages: IOption<Language>[];
     styles: IOption<Style>[];
     URL: string = `${Constants.apiUrl}movie`;
+    initialImageId: string;
+    initialMovieId: number;
 
     constructor(props) {
         super(props);
@@ -65,11 +67,17 @@ export default class MovieUpdater extends Component {
 
         const movieValue: MovieData = (await MovieService.getMovieById(this.id)).data;
 
+        console.log(movieValue);
+
         movieValue.image =
         {
+            ...movieValue.image,
             objectImage: fd,
             url: MovieService.getImageUrl(movieValue.image.id)
         }
+
+        this.initialImageId = movieValue.image.id;
+        this.initialMovieId = movieValue.idMovieData;
 
         this.setState({ ...this.state, value: movieValue, loading: false });
     }
@@ -84,6 +92,7 @@ export default class MovieUpdater extends Component {
             value: {
                 ...this.state.value,
                 image: {
+                    id: null,
                     objectImage: fd,
                     url: URL.createObjectURL(file)
                 }
@@ -155,6 +164,7 @@ export default class MovieUpdater extends Component {
             ...this.state,
             value: {
                 ...this.state.value,
+                idMovieData: null,
                 [name]: value
             }
         };
@@ -165,14 +175,22 @@ export default class MovieUpdater extends Component {
         event.preventDefault();
         try {
             const movie: MovieData = this.state.value;
-            if (Validators.validateMovie(movie)) {
-                const image: Image = (await MovieService.updateImageById(movie.image)).data;
-                console.log(image);
-                movie.image = image;
-                MovieService.updateMovieById(movie).then(res => {
-                    console.log(res.data);
-                });
+            if (movie.idMovieData !== this.initialMovieId) {
+                movie.registerDate = new Date();
+                if (Validators.validateMovie(movie)) {
+                    movie.imageMongoId = this.initialImageId.toString();
+                    if (this.state.value.image.id !== this.initialImageId) {
+                        const image: Image = (await MovieService.createImage(movie.image.objectImage)).data;
+                        console.log(image);
+                        movie.image = image;
+                    }
+
+                    MovieService.updateMovieById(movie).then(res => {
+                        console.log(res.data);
+                    });
+                }
             }
+
         } catch (error) {
             console.error(error);
         }
@@ -194,7 +212,7 @@ export default class MovieUpdater extends Component {
             : this.renderForm();
         return (
             <div >
-                <NavMenu/>
+                <NavMenu />
                 <h1 id="formLabel" >Update a Movie!</h1>
                 {contents}
             </div>
@@ -289,7 +307,7 @@ export default class MovieUpdater extends Component {
                         <Col md={9}>
                             <FormGroup>
                                 <Label>Image:</Label>
-                                <CustomInput type="file" onChange={this.handleImage} id="imageUp" name='image'/>
+                                <CustomInput type="file" onChange={this.handleImage} id="imageUp" name='image' />
                             </FormGroup>
                         </Col>
                     </Row>
@@ -312,6 +330,9 @@ export default class MovieUpdater extends Component {
 
 
                     <Button type="submit">Submit</Button>
+                    // Seguro?
+                    <Button type="reset" href="/" color="danger">Cancel</Button>
+                    // Seguro?
                 </Form>
             </Jumbotron>);
     }

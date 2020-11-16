@@ -45,21 +45,15 @@ export class MovieService {
     return axios.get(`${this.URL}/popularity/${movieId}`);
   }
   public static updateMovieById(movie: MovieData): Promise<AxiosResponse<MovieData>> {
-    return
+    return axios.post(`${this.URL}/update`, movie);
   }
-  public static updateImageById(image: Image): Promise<AxiosResponse<Image>> {
-    return
-  }
-  public static deleteMovieById(id: number): Promise<MovieData> {
-    return
-  }
+  // public static deleteMovieById(id: number): Promise<MovieData> {
+  //   return
+  // }
   public static async getMovieData(): Promise<AxiosResponse<MovieData[]>> {
     return axios.get(`${this.URL}/moviedata`)
   }
-  public static getImageUrl(id: number): string {
-    return this.URL + "/movieimages/" + id;
-  }
-  public static getImageUrlByString(id: string): string {
+  public static getImageUrl(id: string): string {
     return this.URL + "/movieimages/" + id;
   }
 }

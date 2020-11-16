@@ -113,7 +113,7 @@ export default class MovieSearch extends Component {
             <div>
               <Media key={movie.idMovie}>
                 <Media left top href={"movieinfo/" + movie.idMovie}>
-                  <img className="photo" src={MovieService.getImageUrlByString(movie.imageMongoId)} alt="new" />
+                  <img className="photo" src={MovieService.getImageUrl(movie.imageMongoId)} alt="new" />
                 </Media>
                 <Media body>
                   <Media heading>
