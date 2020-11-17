@@ -51,10 +51,11 @@ export default class MovieSearch extends Component {
 
     const stateValue: stateValue = {
       ...this.state,
-      allData: movies
+      allData: movies,
+      value: movies,
+      loading: false
     }
     this.setState(stateValue);
-    console.log(this.state.allData);
   }
 
   handleChange(event: any) {
@@ -79,7 +80,6 @@ export default class MovieSearch extends Component {
 
     const stateValue: stateValue = {
       ...this.state,
-      loading: false,
       value: filtered
     };
 
@@ -97,54 +97,54 @@ export default class MovieSearch extends Component {
             : this.renderMovies();
     return (
       <div>
-        <NavMenu />
-        <Jumbotron>
-          <h1 id="formLabel">Search for a movie!</h1>
-          <br></br>
-          <Form>
-            <Row form>
-              <Col md={6}>
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                  <Input
-                    type="text"
-                    name="Name"
-                    id="kwInput"
-                    placeholder="Enter Name Keyword"
-                    onChange={this.handleChange}
-                  />
-                  <br></br>
-                </FormGroup>
-              </Col>
-              <Col>
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                  <Button onClick={this.handleSearch}>Search</Button>
-                </FormGroup>
-              </Col>
-            </Row>
-          </Form>
-          {contents}
-        </Jumbotron>
+        {contents}
       </div>
     )
   }
   renderMovies() {
     return (
       <div>
+      <NavMenu />
+      <Jumbotron>
+        <h1 id="formLabel">Search for a movie!</h1>
+        <br></br>
+        <Form>
+          <Row form>
+            <Col md={6}>
+              <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                <Input
+                  type="text"
+                  name="Name"
+                  id="kwInput"
+                  placeholder="Enter Name Keyword"
+                  onChange={this.handleChange}
+                />
+                <br></br>
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                <Button onClick={this.handleSearch}>Search</Button>
+              </FormGroup>
+            </Col>
+          </Row>
+        </Form>
         {this.state.value.map(movie =>
-          <div>
-            <Media key={movie.idMovie}>
-              <Media left top href={"movieinfo/" + movie.idMovie}>
-                <img className="photo" src={MovieService.getImageUrl(movie.imageMongoId)} alt="new" />
-              </Media>
-              <Media body>
-                <Media heading>
-                  <a href={"movieinfo/" + movie.idMovie} className="link">{movie.title}</a>
-                </Media>
-          Year: {movie.year}
-              </Media>
+        <div>
+          <Media key={movie.idMovie}>
+            <Media left top href={"movieinfo/" + movie.idMovie}>
+              <img className="photo" src={MovieService.getImageUrl(movie.imageMongoId)} alt="new" />
             </Media>
-            <br></br>
-          </div>)}
-      </div>)
+            <Media body>
+              <Media heading>
+                <a href={"movieinfo/" + movie.idMovie} className="link">{movie.title}</a>
+              </Media>
+        Year: {movie.year}
+            </Media>
+          </Media>
+          <br></br>
+        </div>)}
+      </Jumbotron>
+    </div>)
   }
 }
