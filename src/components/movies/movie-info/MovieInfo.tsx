@@ -13,6 +13,8 @@ interface stateValue {
   id: number;
   languages: string[];
   genres: string[];
+  score: number;
+  popularity: number;
 }
 
 export default class MovieInfo extends Component {
@@ -26,7 +28,9 @@ export default class MovieInfo extends Component {
       loading: true,
       id: props.match.params.id,
       languages: [],
-      genres: []
+      genres: [],
+      score: -1,
+      popularity: -1
     }
   }
 
@@ -37,6 +41,10 @@ export default class MovieInfo extends Component {
 
   async loadData() {
     const movie: MovieData = (await MovieService.getMovieById(this.state.id)).data;
+
+    const popularity: number = (await MovieService.getMoviePopularity(this.state.id)).data;
+
+    const score: number = (await MovieService.getMovieScore(this.state.id)).data;
 
     console.log(movie);
 
@@ -61,6 +69,8 @@ export default class MovieInfo extends Component {
       value: movie,
       languages: langNames,
       genres: genNames,
+      score: score,
+      popularity: popularity
     }
     this.setState(stateValue);
   }
@@ -141,6 +151,18 @@ export default class MovieInfo extends Component {
                 </Media>
                 <Media body>
                   Genres: {this.getAllGenres()}
+                </Media>
+                <Media heading>
+                  <br></br>
+                </Media>
+                <Media body>
+                  Score: {this.state.score}
+                </Media>
+                <Media heading>
+                  <br></br>
+                </Media>
+                <Media body>
+                  Popularity: {this.state.popularity}
                 </Media>
               </Media>
             </Media>
