@@ -108,7 +108,7 @@ export default class MovieRecommendation extends Component {
       </div>
       : this.renderForm();
     let movies: any = !this.state.movieLoading
-    ?  <>No se muestran :c</> : this.renderMovies();
+    ?  <> </> : this.renderMovies();
     return (
       <div>
         <NavMenu />
