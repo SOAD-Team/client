@@ -1,3 +1,14 @@
 .center{
     text-align: center;
   }
+
+  .center_pull {
+    background:#eeeeee none repeat scroll 0 0;
+    border:1px solid #7E7E7E;
+    color:#333333;
+    font-size:12px;
+    margin-bottom:4px;
+    margin-right:4px;
+    margin-top:4px;
+    width:145px;
+}

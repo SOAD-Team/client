@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { RecommendationsService } from '../../../services/recomendationService'
-import { Row, Col, Form, FormGroup, Label, Input, Button, Jumbotron, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Row, Col, Form, FormGroup, Label, Input, Button, Jumbotron, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Media } from 'reactstrap';
 import { Validators } from '../../../helpers/validators';
 import { Genre } from '../../../models/genre';
 import { DotLoader } from 'react-spinners';
@@ -74,6 +74,9 @@ export default class MovieRecommendation extends Component {
       const points: UserPoints = this.state.value;
       if (Validators.validateRecommendations(points)) {
         this.responses = (await RecommendationsService.getRecommendation(points)).data;
+        this.responses.forEach(element=> {
+          element.movie.image.url = MovieService.getImageUrl(element.movie.image.id);
+        });
         this.setState({...this.state, movieLoading: true});
         console.log(this.responses);
       }
@@ -120,7 +123,24 @@ export default class MovieRecommendation extends Component {
     return (
       <div>
         {this.responses.map(element =>
-        <h1>{element.movie.name}</h1>)}
+        <div>
+        <Form>
+        <h1 className="center">{element.movie.name}</h1>
+        <Row form className="center my-4 my-5">
+        <Col md={12}>
+          <Media left top>
+          <Media  object src={element.movie.image.url} alt="new" className="photoInfo center" />
+        </Media>
+        <h5 className="center">{element.movie.year}</h5>
+        </Col>
+        
+        </Row>
+        </Form>
+        </div>
+
+          )}
+        )
+        
       </div>
     )
   }
@@ -136,7 +156,7 @@ export default class MovieRecommendation extends Component {
             <Col md={10}>
               <FormGroup>
                 <Label>Genre:</Label>
-                <UncontrolledDropdown >
+                <UncontrolledDropdown>
                   <DropdownToggle caret>
                     {(this.state.value.genre == null) ? <>Select Genre</> : <>{this.state.value.genre.name}</>}
                   </DropdownToggle>
