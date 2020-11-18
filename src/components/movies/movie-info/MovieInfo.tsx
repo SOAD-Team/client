@@ -18,6 +18,7 @@ interface stateValue {
   popularity: number;
   note: number;
   comment: string;
+  reviews: IReview[];
 }
 
 export default class MovieInfo extends Component {
@@ -35,7 +36,8 @@ export default class MovieInfo extends Component {
       score: -1,
       popularity: -1,
       note: -1,
-      comment: ""
+      comment: "",
+      reviews: []
     }
     this.loadHandlers();
   }
@@ -58,7 +60,9 @@ export default class MovieInfo extends Component {
 
     const score: number = (await MovieService.getMovieScore(this.state.id)).data;
 
-    console.log(movie);
+    const reviews: IReview[] = (await MovieService.getReview(this.state.id)).data;
+
+    console.log(reviews);
 
     var langNames: string[] = [];
     var genNames: string[] = [];
@@ -82,7 +86,8 @@ export default class MovieInfo extends Component {
       languages: langNames,
       genres: genNames,
       score: score,
-      popularity: popularity
+      popularity: popularity,
+      reviews: reviews
     }
     this.setState(stateValue);
   }
@@ -253,8 +258,12 @@ export default class MovieInfo extends Component {
                   </Col>
                 </Row>
             </Form>
-              
             <br></br>
+            {this.state.reviews.map(review => 
+              <FormGroup>
+                <Label> Comment: {review.comment} Score: {review.score}</Label>
+                <br></br>
+              </FormGroup>)}
           </div>}
         </Jumbotron>
       </div>
