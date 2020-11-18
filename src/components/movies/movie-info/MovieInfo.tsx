@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Jumbotron, Media } from 'reactstrap';
+import { Jumbotron, Media, Input, Form, FormGroup, Label, InputGroup, InputGroupAddon, Button, Col, Row } from 'reactstrap';
 import { MovieData } from '../../../models/movie-data';
 import { MovieService } from '../../../services/movieService';
 import './MovieInfo.css'
 import { NavMenu } from '../../core/navMenu/NavMenu';
 import { DotLoader } from 'react-spinners';
+import { IValue } from '../movie-form/movieForm';
+import { IReview } from '../../../models/review';
 
 
 interface stateValue {
@@ -15,6 +17,8 @@ interface stateValue {
   genres: string[];
   score: number;
   popularity: number;
+  note: number;
+  comment: string;
 }
 
 export default class MovieInfo extends Component {
@@ -30,8 +34,17 @@ export default class MovieInfo extends Component {
       languages: [],
       genres: [],
       score: -1,
-      popularity: -1
+      popularity: -1,
+      note: -1,
+      comment: ""
     }
+    this.loadHandlers();
+  }
+
+  loadHandlers(): void {
+    this.handleComment = this.handleComment.bind(this);
+    this.handleNote = this.handleNote.bind(this);
+    this.createReview = this.createReview.bind(this);
   }
 
   componentDidMount() {
@@ -90,6 +103,44 @@ export default class MovieInfo extends Component {
     });
     return genres;
   }
+
+
+  handleComment(event: any) {
+    const target = event.target;
+    const value = target.value;
+    const stateValue: stateValue = {
+      ...this.state,
+      comment: value,
+    };
+
+    this.setState(stateValue);
+  }
+
+  handleNote(event: any) {
+    const target = event.target;
+    const value = target.value;
+    const stateValue: stateValue = {
+      ...this.state,
+      note: value,
+    };
+
+    this.setState(stateValue);
+  }
+
+  
+  createReview() {
+    console.log(this.state.note);
+    console.log(this.state.comment);
+
+    var rev : IReview = {idReview : -1, idMovie : this.state.id, score: this.state.note, comment: this.state.comment};
+
+    MovieService.postReview(rev);
+
+  }
+
+
+
+
   
   render() {
     let contents: any = this.state.loading
@@ -166,6 +217,36 @@ export default class MovieInfo extends Component {
                 </Media>
               </Media>
             </Media>
+            <br></br>
+            <br></br>
+            
+          <Form className="left">
+            
+            <Col md={3}>
+            <h1> Review</h1>
+            </Col>
+            <Row>
+            <Col md={1}>
+            <FormGroup>
+            <Label for="note"> Note: </Label>
+              <Input id="note" name='note' type="number" max='10' min='0' onChange={this.handleNote} />
+              </FormGroup>
+              </Col>
+              <Col md={11}>
+          <FormGroup>
+          <Label for="comment"> Comment: </Label>
+           <InputGroup>
+              <Input onChange={this.handleComment} />
+                <InputGroupAddon addonType="append">
+                  <Button onClick={this.createReview} color="secondary">Add Comment!</Button>
+                  </InputGroupAddon>
+              </InputGroup>
+              
+                  </FormGroup>
+                  </Col>
+                </Row>
+            </Form>
+              
             <br></br>
           </div>}
         </Jumbotron>

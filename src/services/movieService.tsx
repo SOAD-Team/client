@@ -5,6 +5,7 @@ import { Style } from "../models/style";
 import * as Constants from '../constants';
 import axios, { AxiosResponse } from 'axios';
 import { Image } from "../models/image";
+import { IReview } from "../models/review";
 
 export class MovieService {
   private static URL = `${Constants.apiUrl}movie`;
@@ -56,5 +57,13 @@ export class MovieService {
   }
   public static getImageUrl(id: string): string {
     return this.URL + "/movieimages/" + id;
+  }
+
+  public static async postReview(review: IReview):Promise<AxiosResponse<IReview>>{
+    return axios.post(`${this.URL}/review`,review);
+}
+
+  public static async getReview(id: number): Promise<AxiosResponse<IReview[]>> {
+    return axios.get(`${this.URL}/review/`+ id);
   }
 }

@@ -10,6 +10,7 @@ export class RegisterService {
   }
 
 
+
   public static async postUserInfo(user : User){
     const requestOptions = {
         method: 'POST',
