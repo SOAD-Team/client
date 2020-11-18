@@ -39,7 +39,7 @@ export class LogIn extends Component {
           cookies.set('Name', user.name, {path:"/"})
           cookies.set('LastName', user.lastName, {path:"/"})
           cookies.set('Email', user.email, {path:"/"})
-          window.location.href= "/home";
+          window.location.href= "/mvRecommendations";
       }
       } catch (error) {
         alert ('Incorrect Email or Password')

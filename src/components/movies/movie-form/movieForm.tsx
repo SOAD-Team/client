@@ -295,7 +295,7 @@ export default class MovieForm extends Component {
 
 
           <Button type="submit">Submit</Button>
-          <Button type="reset" href="/home" color="danger">Cancel</Button>
+          <Button type="reset" href="/mvRecommendations" color="danger">Cancel</Button>
         </Form>
       </Jumbotron>);
   }

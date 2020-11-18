@@ -23,6 +23,7 @@ export class MovieData {
         public movieDataGenre: Genre[] = [],
         public metaScore?: number,
         public imdb?: number,
+        public popularity?: number,
         public imageMongoId?: string
         ) { }
 

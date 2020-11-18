@@ -43,7 +43,7 @@ export class NavMenu extends Component {
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow navfondo mb-3" light>
           <Container>
-            <NavbarBrand tag={Link} to="/home">
+            <NavbarBrand tag={Link} to="/mvRecommendations">
               <img src={mymovie} alt="mymovie" />
             </NavbarBrand>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
@@ -64,6 +64,9 @@ export class NavMenu extends Component {
                       </DropdownItem>
                       <DropdownItem>
                         <NavLink caret tag={Link} className="text-dark" to="/mvSearch">Movie Search</NavLink>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <NavLink tag={Link} className="text-dark" to="/mvRecommendations">Movie Recommendations</NavLink>
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
