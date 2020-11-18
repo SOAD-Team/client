@@ -5,7 +5,6 @@ import { MovieService } from '../../../services/movieService';
 import './MovieInfo.css'
 import { NavMenu } from '../../core/navMenu/NavMenu';
 import { DotLoader } from 'react-spinners';
-import { IValue } from '../movie-form/movieForm';
 import { IReview } from '../../../models/review';
 
 
@@ -139,7 +138,15 @@ export default class MovieInfo extends Component {
   }
 
 
-
+  renderReview() {
+    return(
+      <div>
+        {
+          
+        }
+      </div>
+    )
+  }
 
   
   render() {
