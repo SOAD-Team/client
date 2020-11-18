@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Jumbotron, Media } from 'reactstrap';
+import { Jumbotron, Media, Input, Form, FormGroup, Label, InputGroup, InputGroupAddon, Button, Col, Row } from 'reactstrap';
 import { MovieData } from '../../../models/movie-data';
 import { MovieService } from '../../../services/movieService';
 import './MovieInfo.css'
 import { NavMenu } from '../../core/navMenu/NavMenu';
 import { DotLoader } from 'react-spinners';
+import { IValue } from '../movie-form/movieForm';
+import { IReview } from '../../../models/review';
 
 
 interface stateValue {
@@ -90,6 +92,30 @@ export default class MovieInfo extends Component {
     });
     return genres;
   }
+
+  handleChange = (event: any) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.type === 'number' ? parseInt(target.value) : target.value;
+    const name = target.name;
+    const stateValue: IValue = {
+      ...this.state,
+      value: {
+        ...this.state.value,
+        [name]: value
+      }
+    };
+
+    this.setState(stateValue);
+  }
+
+  createReview() {
+    const review: IReview = (await MovieService.postReview(this.state.id)).data;
+    
+  }
+
+
+
+
   
   render() {
     let contents: any = this.state.loading
@@ -166,6 +192,37 @@ export default class MovieInfo extends Component {
                 </Media>
               </Media>
             </Media>
+            <br></br>
+            <br></br>
+            
+          <Form className="left">
+            
+            <Col md={3}>
+            <h1> Review</h1>
+            </Col>
+            <Row>
+            <Col md={1}>
+            <FormGroup>
+            <Label for="note"> Note: </Label>
+              <Input id="note" name='note' type="number" max='10' min='0' value={this.state.value.metaScore} onChange={this.handleChange} />
+              </FormGroup>
+              </Col>
+              <Col md={11}>
+          <FormGroup>
+          <Label for="comment"> Comment: </Label>
+          
+           <InputGroup>
+              <Input />
+                <InputGroupAddon addonType="append" onChange={this.handleChange}>
+                  <Button onClick={this.createReview()} color="secondary">Add Comment!</Button>
+                  </InputGroupAddon>
+              </InputGroup>
+              
+                  </FormGroup>
+                  </Col>
+                </Row>
+            </Form>
+              
             <br></br>
           </div>}
         </Jumbotron>
