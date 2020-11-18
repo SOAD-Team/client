@@ -154,6 +154,7 @@ export default class MovieForm extends Component {
         movie.image = image;
         MovieService.createMovie(movie).then(res => {
           console.log(res.data);
+          window.location.href = "/updateMovie";
         });
       }
     } catch (error) {
@@ -294,7 +295,7 @@ export default class MovieForm extends Component {
           </Row>
 
 
-          <Button type="submit">Submit</Button>
+          <Button type="submit" >Submit</Button>
           <Button type="reset" href="/mvRecommendations" color="danger">Cancel</Button>
         </Form>
       </Jumbotron>);
