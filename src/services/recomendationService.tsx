@@ -2,18 +2,12 @@ import * as Constants from '../constants'
 import axios, { AxiosResponse } from 'axios';
 import { IRecommendation } from '../models/recommendation';
 import { UserPoints } from '../models/userPoints';
+import { Genre } from '../models/genre';
 
-export class RegisterService {
+export class RecommendationsService {
     private static URL = `${Constants.apiUrl}recommendation`;
 
-    public static getMovieRecommendation(imdb: number, metaScore: number, community: number, platFav: number, popularity: number): Promise<AxiosResponse<IRecommendation>> {
-        const points: UserPoints = {
-            imdb,
-            metaScore,
-            community,
-            platFav,
-            popularity
-        }
+    public static getRecommendation(points:UserPoints): Promise<AxiosResponse<IRecommendation[]>> {
         return axios.post(this.URL, points);
     }
 }

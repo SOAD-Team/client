@@ -1,135 +1,59 @@
 import React, { Component } from 'react';
-import { MovieData } from '../../../models/movie-data';
-import { MovieService } from '../../../services/movieService'
-import { Language } from '../../../models/language';
-import { Style } from '../../../models/style';
-import CreatableSelect from 'react-select/creatable';
-import { Row, Col, Form, FormGroup, Label, Input, Button, Jumbotron } from 'reactstrap';
+import { RecommendationsService } from '../../../services/recomendationService'
+import { Row, Col, Form, FormGroup, Label, Input, Button, Jumbotron, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Validators } from '../../../helpers/validators';
-import { IOption } from '../../shared/IOption';
 import { Genre } from '../../../models/genre';
-import { IData } from '../../../models/data';
-import { Image } from '../../../models/image';
 import { DotLoader } from 'react-spinners';
 import { NavMenu } from '../../core/navMenu/NavMenu';
 import './MovieRecommendation.css';
+import Cookies from 'universal-cookie'
+import { UserPoints } from '../../../models/userPoints';
+import { MovieService } from '../../../services/movieService'
+import { IRecommendation } from '../../../models/recommendation';
+
+const cookies = new Cookies();
 
 interface IValue {
-  value: MovieData, loading: boolean
+  value: UserPoints, loading: boolean
 }
-export default class MovieRecommendations extends Component {
+export default class MovieRecommendation extends Component {
 
   state: IValue;
-  genres: IOption<Genre>[];
-  languages: IOption<Language>[];
-  styles: IOption<Style>[];
+  genres: Genre[];
+  responses: IRecommendation[]=[];
+
 
   constructor(props) {
     super(props);
 
     this.state = {
-      value: MovieData.Empty,
+      value: {
+        genre: null,
+        imdb: 0,
+        metaScore: 0,
+        community: 0,
+        platFav: 0,
+        popularity: 0,
+      },
       loading: true,
     };
   }
+
+
 
   componentDidMount() {
     this.loadData();
   }
 
   async loadData() {
-    const genres: Genre[] = (await MovieService.getGenres()).data;
-    const languages: Language[] = (await MovieService.getLanguages()).data;
-    const styles: Style[] = (await MovieService.getStyles()).data;
-
-    this.genres = genres.map(genre => {
-      const data = { value: genre, label: genre.name };
-      return data;
-    });
-
-    this.languages = languages.map(language => {
-      const data = { value: language, label: language.name };
-      return data;
-    });
-
-    this.styles = styles.map(style => {
-      const data = { value: style, label: style.name };
-      return data;
-    });
-    this.setState({ ...this.state, loading: false });
-  }
-
-  handleImage = (event: any) => {
-    const file: any = event.target.files[0];
-    const fd: FormData = new FormData();
-    console.log(fd);
-    fd.append('image', file, file.name);
-    this.setState({
+    this.genres = (await MovieService.getGenres()).data;
+    const state: IValue={
       ...this.state,
-      value: {
-        ...this.state.value,
-        image: {
-          objectImage: fd,
-          url: URL.createObjectURL(file)
-        }
-      }
-    })
-  }
-
-  handleSelectionChange = (newValue: IOption<IData>[], actionMeta: any, movieList: IData[]) => {
-    switch (actionMeta.action) {
-      case 'clear':
-        this.handleClear(movieList);
-        break;
-      case 'create-option':
-        this.handleCreateOption(newValue, movieList);
-        break;
-      case 'select-option':
-        this.handleSelectOption(newValue, movieList);
-        break;
-      case 'remove-value':
-        this.handleRemoveValue(newValue, movieList);
-        break;
+      loading:false
     }
-  };
-
-  handleRemoveValue(newValue: IOption<IData>[], movieList: IData[]) {
-    if (!newValue)
-      this.handleClear(movieList);
-    else {
-      let newValueList: IData[] = [];
-      movieList.forEach(element => {
-        if (newValue.find(val => val.label === element.name)) {
-          newValueList.push(element);
-        }
-      });
-      this.handleClear(movieList);
-      newValueList.forEach(val => {
-        movieList.push(val);
-      })
-    }
+    this.setState(state);
   }
 
-  handleSelectOption(newValue: IOption<IData>[], movieList: IData[]) {
-    movieList.push(newValue.slice(-1)[0].value);
-
-  }
-
-  handleCreateOption(newValue: IOption<IData>[], movieList: IData[]) {
-    const option = newValue.slice(-1)[0]
-    const val: IData = { name: option.label };
-    movieList.push(val);
-  }
-
-  handleClear(movieList: IData[]) {
-    movieList.length = 0;
-  }
-
-  handleInputSelectionChange = (inputValue: string, actionMeta: any) => {
-    if (inputValue)
-      inputValue = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
-    return inputValue;
-  };
 
   handleChange = (event: any) => {
     const target = event.target;
@@ -142,19 +66,17 @@ export default class MovieRecommendations extends Component {
         [name]: value
       }
     };
+
     this.setState(stateValue);
   }
 
   handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const movie: MovieData = this.state.value;
-      if (Validators.validateMovie(movie)) {
-        const image: Image = (await MovieService.createImage(movie.image.objectImage)).data;
-        console.log(image);
-        movie.image = image;
-        MovieService.createMovie(movie).then(res => {
-          console.log(res.data);
+      const points: UserPoints = this.state.value;
+      if (Validators.validateRecommendations(points)) {
+        RecommendationsService.getRecommendation(points).then(res => {
+        this.responses = res.data
         });
       }
     } catch (error) {
@@ -163,8 +85,16 @@ export default class MovieRecommendations extends Component {
 
   }
 
-  notEmpty(list: any[]): boolean {
-    return list.length > 0;
+  toggle = (event,genre) => {
+
+    const state: IValue = {
+      ...this.state,
+      value: {
+        ...this.state.value,
+        genre
+      }
+    };
+    this.setState(state);
   }
 
   render() {
@@ -173,45 +103,70 @@ export default class MovieRecommendations extends Component {
         position: 'absolute', left: '50%', top: '50%',
         transform: 'translate(-50%, -50%)'
       }}>
-        <DotLoader size={100} loading={this.state.loading}/>
+        <DotLoader size={100} loading={this.state.loading} />
       </div>
       : this.renderForm();
+      let movies:any = this.responses === []? 
+      <> </> :  this.renderMovies();
     return (
       <div>
-        <NavMenu/>
+        <NavMenu />
         <h1 id="formLabel" className="center">Movie Recommendations!</h1>
-        {contents}
+        {contents} {movies}
       </div>
     )
   }
+  renderMovies(): any {
+    return(
+    <div>{this.responses.map(elemente=>
+      <>{elemente.movie.name}</>)}</div>
+    )
+  }
+
 
   renderForm() {
     return (
       <Jumbotron>
         <Form onSubmit={this.handleSubmit}>
-        
+
           <Row form>
-          <Col md={1}></Col>
+            <Col md={1}></Col>
             <Col md={10}>
               <FormGroup>
                 <Label>Genre:</Label>
-                <CreatableSelect
-                  defaultValue={[]}
-                  onInputChange={this.handleInputSelectionChange}
-                  name="genres"
-                  className="genre-multi-select"
-                  classNamePrefix="selectGenre"
-                  options={this.genres}
-                />
+                <UncontrolledDropdown >
+                  <DropdownToggle caret>
+                      {(this.state.value.genre==null) ? <>selectGenre</> : <>{this.state.value.genre.name}</>}
+                </DropdownToggle>
+                  <DropdownMenu modifiers={{
+                    setMaxHeight: {
+                    enabled: true,
+                    order: 890,
+                    fn: (data) => {
+                    return {
+                    ...data,
+                    styles: {
+                    ...data.styles,
+                    overflow: 'auto',
+                    maxHeight: '100px',
+                    },
+                    };
+                    },
+                    },
+                    }}>
+                    {this.genres.map(element =>
+                      <DropdownItem onClick={e => this.toggle(e,element)}>{element.name}</DropdownItem>)}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               </FormGroup>
-            </Col>  
+            </Col>
           </Row>
 
           <h3 id="formLabel" className="center my-4">Weight of the categories...</h3>
-          
+
 
           <Row form className="my-4">
-          <Col md={2}></Col>
+            <Col md={2}></Col>
             <Col md={4}>
               <FormGroup>
                 <Label>IMDB:</Label>
@@ -227,7 +182,7 @@ export default class MovieRecommendations extends Component {
             <Col md={2}></Col>
           </Row>
           <Row form>
-          <Col md={2}></Col>
+            <Col md={2}></Col>
             <Col md={4}>
               <FormGroup>
                 <Label>Community:</Label>
@@ -237,14 +192,14 @@ export default class MovieRecommendations extends Component {
             <Col md={4}>
               <FormGroup>
                 <Label>Favorite:</Label>
-                <Input id="favorite" name='favorite' type="number" max='35' min='0' value={this.state.value.favorite} onChange={this.handleChange} />
+                <Input id="platFav" name='platFav' type="number" max='35' min='0' value={this.state.value.platFav} onChange={this.handleChange} />
               </FormGroup>
             </Col>
             <Col md={2}></Col>
           </Row>
 
           <Row form>
-          <Col md={2}></Col>
+            <Col md={2}></Col>
             <Col md={4}>
               <FormGroup>
                 <Label>Popularity:</Label>
@@ -253,13 +208,14 @@ export default class MovieRecommendations extends Component {
             </Col>
             <Col md={4}>
               <FormGroup>
-              <Button type="submit" className="btn btn-primary btn-lg btn-block my-4" color="primary">Recomnendations</Button>
+                <Button type="submit" className="btn btn-primary btn-lg btn-block my-4" color="primary">Recomnendations</Button>
               </FormGroup>
             </Col>
             <Col md={2}></Col>
           </Row>
 
         </Form>
-      </Jumbotron>);
+      </Jumbotron>
+    );
   }
 }
