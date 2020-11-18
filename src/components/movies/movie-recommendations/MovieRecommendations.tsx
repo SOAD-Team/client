@@ -6,21 +6,18 @@ import { Genre } from '../../../models/genre';
 import { DotLoader } from 'react-spinners';
 import { NavMenu } from '../../core/navMenu/NavMenu';
 import './MovieRecommendation.css';
-import Cookies from 'universal-cookie'
 import { UserPoints } from '../../../models/userPoints';
 import { MovieService } from '../../../services/movieService'
 import { IRecommendation } from '../../../models/recommendation';
 
-const cookies = new Cookies();
-
 interface IValue {
-  value: UserPoints, loading: boolean
+  value: UserPoints, loading: boolean, movieLoading : boolean
 }
 export default class MovieRecommendation extends Component {
 
   state: IValue;
   genres: Genre[];
-  responses: IRecommendation[]=[];
+  responses: IRecommendation[] = [];
 
 
   constructor(props) {
@@ -36,6 +33,7 @@ export default class MovieRecommendation extends Component {
         popularity: 0,
       },
       loading: true,
+      movieLoading : false
     };
   }
 
@@ -47,9 +45,9 @@ export default class MovieRecommendation extends Component {
 
   async loadData() {
     this.genres = (await MovieService.getGenres()).data;
-    const state: IValue={
+    const state: IValue = {
       ...this.state,
-      loading:false
+      loading: false
     }
     this.setState(state);
   }
@@ -75,9 +73,9 @@ export default class MovieRecommendation extends Component {
     try {
       const points: UserPoints = this.state.value;
       if (Validators.validateRecommendations(points)) {
-        RecommendationsService.getRecommendation(points).then(res => {
-        this.responses = res.data
-        });
+        this.responses = (await RecommendationsService.getRecommendation(points)).data;
+        this.setState({...this.state, movieLoading: true});
+        console.log(this.responses);
       }
     } catch (error) {
       console.error(error);
@@ -85,7 +83,7 @@ export default class MovieRecommendation extends Component {
 
   }
 
-  toggle = (event,genre) => {
+  toggle = (event, genre) => {
 
     const state: IValue = {
       ...this.state,
@@ -106,20 +104,24 @@ export default class MovieRecommendation extends Component {
         <DotLoader size={100} loading={this.state.loading} />
       </div>
       : this.renderForm();
-      let movies:any = this.responses === []? 
-      <> </> :  this.renderMovies();
+    let movies: any = !this.state.movieLoading
+    ?  <>No se muestran :c</> : this.renderMovies();
     return (
       <div>
         <NavMenu />
         <h1 id="formLabel" className="center">Movie Recommendations!</h1>
-        {contents} {movies}
+        {contents}
+        <br/> 
+        {movies}
       </div>
     )
   }
   renderMovies(): any {
-    return(
-    <div>{this.responses.map(elemente=>
-      <>{elemente.movie.name}</>)}</div>
+    return (
+      <div>
+        {this.responses.map(element =>
+        <h1>{element.movie.name}</h1>)}
+      </div>
     )
   }
 
@@ -136,26 +138,26 @@ export default class MovieRecommendation extends Component {
                 <Label>Genre:</Label>
                 <UncontrolledDropdown >
                   <DropdownToggle caret>
-                      {(this.state.value.genre==null) ? <>selectGenre</> : <>{this.state.value.genre.name}</>}
-                </DropdownToggle>
+                    {(this.state.value.genre == null) ? <>Select Genre</> : <>{this.state.value.genre.name}</>}
+                  </DropdownToggle>
                   <DropdownMenu modifiers={{
                     setMaxHeight: {
-                    enabled: true,
-                    order: 890,
-                    fn: (data) => {
-                    return {
-                    ...data,
-                    styles: {
-                    ...data.styles,
-                    overflow: 'auto',
-                    maxHeight: '100px',
+                      enabled: true,
+                      order: 890,
+                      fn: (data) => {
+                        return {
+                          ...data,
+                          styles: {
+                            ...data.styles,
+                            overflow: 'auto',
+                            maxHeight: '100px',
+                          },
+                        };
+                      },
                     },
-                    };
-                    },
-                    },
-                    }}>
+                  }}>
                     {this.genres.map(element =>
-                      <DropdownItem onClick={e => this.toggle(e,element)}>{element.name}</DropdownItem>)}
+                      <DropdownItem onClick={e => this.toggle(e, element)}>{element.name}</DropdownItem>)}
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </FormGroup>
@@ -208,7 +210,7 @@ export default class MovieRecommendation extends Component {
             </Col>
             <Col md={4}>
               <FormGroup>
-                <Button type="submit" className="btn btn-primary btn-lg btn-block my-4" color="primary">Recomnendations</Button>
+                <Button type="submit" className="btn btn-primary btn-lg btn-block my-4" color="primary">Recommendations</Button>
               </FormGroup>
             </Col>
             <Col md={2}></Col>

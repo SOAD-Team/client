@@ -29,19 +29,19 @@ export class Validators{
             alert('Please Choose a Genre')
             val = false;
         }
-        if(points.imdb == 0){
+        if(points.imdb === 0){
             alert('Please Choose a value for IMDB')
             val = false;
         }
-        if(points.platFav == 0){
+        if(points.platFav === 0){
             alert('Please Choose a value for Favorite')
             val = false;
         }
-        if(points.popularity == 0){
-            alert('Please Choose a value for Populariy')
+        if(points.popularity === 0){
+            alert('Please Choose a value for Popularity')
             val = false;
         }
-        if(points.community == 0){
+        if(points.community === 0){
             alert('Please Choose a value for Community')
             val = false;
         }

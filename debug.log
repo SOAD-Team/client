@@ -1,2 +1,4 @@
 [1107/143450.377:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
 [1115/101713.925:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1118/060543.418:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\gababarca\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\645d2335-be57-42a1-bf2b-cbce61f3be72: El sistema no puede encontrar la ruta especificada. (0x3)
+[1118/060543.419:ERROR:directory_reader_win.cc(43)] FindFirstFile: El sistema no puede encontrar la ruta especificada. (0x3)
