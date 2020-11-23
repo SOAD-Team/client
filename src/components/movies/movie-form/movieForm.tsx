@@ -148,6 +148,8 @@ export default class MovieForm extends Component {
     event.preventDefault();
     try {
       const movie: MovieData = this.state.value;
+      console.log(movie.image.url);
+      console.log(movie.image.objectImage);
       if (Validators.validateMovie(movie)) {
         const image: Image = (await MovieService.createImage(movie.image.objectImage)).data;
         console.log(image);
