@@ -151,6 +151,7 @@ export default class MovieForm extends Component {
       console.log(movie.image.url);
       console.log(movie.image.objectImage);
       if (Validators.validateMovie(movie)) {
+        await MovieService.createImage(movie.image.objectImage).catch(e => console.log(e));
         const image: Image = (await MovieService.createImage(movie.image.objectImage)).data;
         console.log(image);
         movie.image = image;
@@ -275,7 +276,7 @@ export default class MovieForm extends Component {
             <Col md={9}>
               <FormGroup>
                 <Label>Image:</Label>
-                <CustomInput type="file" onChange={this.handleImage} id="imageUp" name='image' required />
+                  <CustomInput type="file" onChange={this.handleImage} id="imageUp" name='image' required />
               </FormGroup>
             </Col>
           </Row>
