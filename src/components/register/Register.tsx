@@ -172,7 +172,7 @@ export default class Register extends Component {
                 </Label>
                 <Input
                   type="password"
-                  name="Password"
+                  name="password"
                   id="examplePassword"
                   placeholder="Super Secret Password!"
                   onChange={this.handleChange}
