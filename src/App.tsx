@@ -14,7 +14,6 @@ import MovieRecommendations from "./components/movies/movie-recommendations/Movi
 
 export default class App extends Component {
   static displayName = App.name;
-
   render () {
     return (
       <div>

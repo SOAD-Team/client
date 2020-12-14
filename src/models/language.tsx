@@ -1,6 +1,6 @@
-import { IData } from "./data";
+import { KeyValuePair } from "./keyValuePair";
 
-export class Language implements IData{
-    idLanguage: number;
+export class Language implements KeyValuePair{
+    id: number;
     name: string;
 }

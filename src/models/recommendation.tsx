@@ -1,6 +1,6 @@
-import { MovieData } from "./movie-data";
+import { Movie } from "./movie";
 
 export interface IRecommendation{
-    movie: MovieData;
+    movie: Movie;
     score: number;
 }

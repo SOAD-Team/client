@@ -1,8 +1,8 @@
-import { MovieData } from "../models/movie-data";
+import { Movie } from "../models/movie";
 import { UserPoints } from "../models/userPoints";
 
 export class Validators{
-    static validateMovie(movie: MovieData): boolean{
+    static validateMovie(movie: Movie): boolean{
         let val: boolean = true;
         if(this.validateEmpty(movie.genres)){
             alert('Please Choose a Genre')

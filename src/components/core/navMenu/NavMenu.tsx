@@ -52,7 +52,7 @@ export class NavMenu extends Component {
 
                 <NavItem>
                   <UncontrolledDropdown>
-                    <DropdownToggle caret className="text-white">
+                    <DropdownToggle className="text-white">
                       Movies
                     </DropdownToggle>
                     <DropdownMenu>
@@ -63,7 +63,7 @@ export class NavMenu extends Component {
                         <NavLink tag={Link} className="text-dark" to="/updateMovie">Update my movies</NavLink>
                       </DropdownItem>
                       <DropdownItem>
-                        <NavLink caret tag={Link} className="text-dark" to="/mvSearch">Movie Search</NavLink>
+                        <NavLink tag={Link} className="text-dark" to="/mvSearch">Movie Search</NavLink>
                       </DropdownItem>
                       <DropdownItem>
                         <NavLink tag={Link} className="text-dark" to="/mvRecommendations">Movie Recommendations</NavLink>
@@ -74,7 +74,7 @@ export class NavMenu extends Component {
 
                 <NavItem>
                   <UncontrolledButtonDropdown>
-                    <DropdownToggle caret className="text-white">
+                    <DropdownToggle className="text-white">
                       {this.name} {this.lastname}
                     </DropdownToggle>
                     <DropdownMenu>

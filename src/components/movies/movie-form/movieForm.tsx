@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MovieData } from '../../../models/movie-data';
+import { Movie } from '../../../models/movie';
 import { MovieService } from '../../../services/movieService'
 import { Language } from '../../../models/language';
 import { Style } from '../../../models/style';
@@ -8,13 +8,17 @@ import { Media, Row, Col, Form, FormGroup, Label, Input, Button, CustomInput, Ju
 import { Validators } from '../../../helpers/validators';
 import { IOption } from '../../shared/IOption';
 import { Genre } from '../../../models/genre';
-import { IData } from '../../../models/data';
+import { KeyValuePair } from '../../../models/keyValuePair';
 import { Image } from '../../../models/image';
 import { DotLoader } from 'react-spinners';
 import { NavMenu } from '../../core/navMenu/NavMenu';
+import { GenreService } from '../../../services/genreService';
+import { LanguageService } from '../../../services/languageService';
+import { StyleService } from '../../../services/styleService';
+import { ImageService } from '../../../services/imageService';
 
 export interface IValue {
-  value: MovieData, loading: boolean
+  value: Movie, loading: boolean, image: FormData
 }
 export default class MovieForm extends Component {
 
@@ -23,13 +27,15 @@ export default class MovieForm extends Component {
   genres: IOption<Genre>[];
   languages: IOption<Language>[];
   styles: IOption<Style>[];
+  requiresImage: boolean = true;
 
   constructor(props) {
     super(props);
 
     this.state = {
-      value: MovieData.Empty,
+      value: Movie.Empty,
       loading: true,
+      image: new FormData()
     };
   }
 
@@ -38,9 +44,9 @@ export default class MovieForm extends Component {
   }
 
   async loadData() {
-    const genres: Genre[] = (await MovieService.getGenres()).data;
-    const languages: Language[] = (await MovieService.getLanguages()).data;
-    const styles: Style[] = (await MovieService.getStyles()).data;
+    const genres: Genre[] = (await GenreService.getAll()).data;
+    const languages: Language[] = (await LanguageService.Singleton().getAll()).data;
+    const styles: Style[] = (await StyleService.getAll()).data;
 
     this.genres = genres.map(genre => {
       const data = { value: genre, label: genre.name };
@@ -60,22 +66,10 @@ export default class MovieForm extends Component {
 
   handleImage = (event: any) => {
     const file: any = event.target.files[0];
-    const fd: FormData = new FormData();
-    console.log(fd);
-    fd.append('image', file, file.name);
-    this.setState({
-      ...this.state,
-      value: {
-        ...this.state.value,
-        image: {
-          objectImage: fd,
-          url: URL.createObjectURL(file)
-        }
-      }
-    })
+    this.state.image.append('image', file, file.name);
   }
 
-  handleSelectionChange = (newValue: IOption<IData>[], actionMeta: any, movieList: IData[]) => {
+  handleSelectionChange = (newValue: IOption<KeyValuePair>[], actionMeta: any, movieList: KeyValuePair[]) => {
     switch (actionMeta.action) {
       case 'clear':
         this.handleClear(movieList);
@@ -92,11 +86,11 @@ export default class MovieForm extends Component {
     }
   };
 
-  handleRemoveValue(newValue: IOption<IData>[], movieList: IData[]) {
+  handleRemoveValue(newValue: IOption<KeyValuePair>[], movieList: KeyValuePair[]) {
     if (!newValue)
       this.handleClear(movieList);
     else {
-      let newValueList: IData[] = [];
+      let newValueList: KeyValuePair[] = [];
       movieList.forEach(element => {
         if (newValue.find(val => val.label === element.name)) {
           newValueList.push(element);
@@ -109,18 +103,18 @@ export default class MovieForm extends Component {
     }
   }
 
-  handleSelectOption(newValue: IOption<IData>[], movieList: IData[]) {
+  handleSelectOption(newValue: IOption<KeyValuePair>[], movieList: KeyValuePair[]) {
     movieList.push(newValue.slice(-1)[0].value);
 
   }
 
-  handleCreateOption(newValue: IOption<IData>[], movieList: IData[]) {
+  handleCreateOption(newValue: IOption<KeyValuePair>[], movieList: KeyValuePair[]) {
     const option = newValue.slice(-1)[0]
-    const val: IData = { name: option.label };
+    const val: KeyValuePair = { name: option.label };
     movieList.push(val);
   }
 
-  handleClear(movieList: IData[]) {
+  handleClear(movieList: KeyValuePair[]) {
     movieList.length = 0;
   }
 
@@ -147,15 +141,13 @@ export default class MovieForm extends Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const movie: MovieData = this.state.value;
+      const movie: Movie = this.state.value;
       console.log(movie.image.url);
-      console.log(movie.image.objectImage);
       if (Validators.validateMovie(movie)) {
-        await MovieService.createImage(movie.image.objectImage).catch(e => console.log(e));
-        const image: Image = (await MovieService.createImage(movie.image.objectImage)).data;
+        const image: Image = (await ImageService.post(this.state.image)).data;
         console.log(image);
         movie.image = image;
-        MovieService.createMovie(movie).then(res => {
+        MovieService.post(movie).then(res => {
           console.log(res.data);
           window.location.href = "/updateMovie";
         });
@@ -276,7 +268,7 @@ export default class MovieForm extends Component {
             <Col md={9}>
               <FormGroup>
                 <Label>Image:</Label>
-                  <CustomInput type="file" onChange={this.handleImage} id="imageUp" name='image' required />
+                  <CustomInput type="file" onChange={this.handleImage} id="imageUp" name='image' required={this.requiresImage} />
               </FormGroup>
             </Col>
           </Row>

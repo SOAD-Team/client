@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import { Jumbotron, Media, Input, Form, FormGroup, Label, InputGroup, InputGroupAddon, Button, Col, Row } from 'reactstrap';
-import { MovieData } from '../../../models/movie-data';
+import { Movie } from '../../../models/movie';
 import { MovieService } from '../../../services/movieService';
 import './MovieInfo.css'
 import { NavMenu } from '../../core/navMenu/NavMenu';
 import { DotLoader } from 'react-spinners';
 import { IReview } from '../../../models/review';
+import { ReviewService } from '../../../services/reviewService';
 
 
 interface stateValue {
-  value: MovieData;
+  value: Movie;
   loading: boolean;
   id: number;
   languages: string[];
   genres: string[];
-  score: number;
-  popularity: number;
   note: number;
   comment: string;
   reviews: IReview[];
@@ -33,8 +32,6 @@ export default class MovieInfo extends Component {
       id: props.match.params.id,
       languages: [],
       genres: [],
-      score: -1,
-      popularity: -1,
       note: -1,
       comment: "",
       reviews: []
@@ -54,13 +51,13 @@ export default class MovieInfo extends Component {
   }
 
   async loadData() {
-    const movie: MovieData = (await MovieService.getMovieById(this.state.id)).data;
+    const movie: Movie = (await MovieService.get(this.state.id)).data;
 
-    const popularity: number = (await MovieService.getMoviePopularity(this.state.id)).data;
+    // const popularity: number = (await MovieService.getMoviePopularity(this.state.id)).data;
 
-    const score: number = (await MovieService.getMovieScore(this.state.id)).data;
+    // const score: number = (await MovieService.getMovieScore(this.state.id)).data;
 
-    const reviews: IReview[] = (await MovieService.getReview(this.state.id)).data;
+    const reviews: IReview[] = (await ReviewService.get(this.state.id)).data;
 
     console.log(reviews);
 
@@ -85,8 +82,6 @@ export default class MovieInfo extends Component {
       value: movie,
       languages: langNames,
       genres: genNames,
-      score: score,
-      popularity: popularity,
       reviews: reviews
     }
     this.setState(stateValue);
@@ -138,7 +133,7 @@ export default class MovieInfo extends Component {
 
     var rev : IReview = {idReview : -1, idMovie : this.state.id, score: this.state.note, comment: this.state.comment};
 
-    MovieService.postReview(rev);
+    ReviewService.post(rev);
 
   }
 
@@ -181,7 +176,7 @@ export default class MovieInfo extends Component {
             <br></br>
             <Media key={this.state.value.idMovie}>
               <Media left top>
-                <Media object src={MovieService.getImageUrl(this.state.value.image.id)} alt="new" className="photoInfo" />
+                <Media object src={this.state.value.image.url} alt="new" className="photoInfo" />
               </Media>
               <Media body className="movieInfo">
                 Year: {this.state.value.year}
@@ -201,7 +196,7 @@ export default class MovieInfo extends Component {
                   <br></br>
                 </Media>
                 <Media body>
-                  IMBD: {this.state.value.metaScore}
+                  IMDB: {this.state.value.metaScore}
                 </Media>
                 <Media heading>
                   <br></br>
@@ -219,13 +214,13 @@ export default class MovieInfo extends Component {
                   <br></br>
                 </Media>
                 <Media body>
-                  Score: {this.state.score}
+                  Score: {this.state.value.communityScore}
                 </Media>
                 <Media heading>
                   <br></br>
                 </Media>
                 <Media body>
-                  Popularity: {this.state.popularity}
+                  Popularity: {this.state.value.styles}
                 </Media>
               </Media>
             </Media>

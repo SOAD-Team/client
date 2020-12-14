@@ -1,3 +1,3 @@
-import { MovieData } from "../../models/movie-data";
+import { Movie } from "../../models/movie";
 
-export interface IData { value: MovieData, score: number, popularity: number }
+export interface IData { value: Movie, score: number, popularity: number }

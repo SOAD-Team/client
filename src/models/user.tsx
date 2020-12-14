@@ -14,5 +14,4 @@ export class User {
       return user; 
     }
     public static local: User = User.Empty;
-
 }

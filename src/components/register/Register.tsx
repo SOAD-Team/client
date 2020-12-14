@@ -11,7 +11,7 @@ import {
   Alert,
 } from "reactstrap";
 import { User } from "../../models/user";
-import { RegisterService } from "../../services/registerService";
+import { UserService } from "../../services/userService";
 import { InitMenu } from '../core/initMenu/InitMenu';
 
 interface stateValue {
@@ -41,14 +41,14 @@ export default class Register extends Component {
     this.handlePassword = this.handlePassword.bind(this);
   }
 
-  async handleSignUp(event) {
-    console.log(this.state.value);
-    const data = await RegisterService.postUserInfo(this.state.value);
-    if(data === 0){
-      alert("User is already registered!");
-      window.location.href= './';
-    }else{
-      alert("User Registered!");
+  async handleSignUp(event) {    
+    try{
+      const data = (await UserService.post(this.state.value)).data;
+      alert(`User ${data.email} registered`);
+      
+    }
+    catch(e){
+      alert(e);
     }
   }
 

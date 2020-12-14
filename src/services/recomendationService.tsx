@@ -6,7 +6,7 @@ import { UserPoints } from '../models/userPoints';
 export class RecommendationsService {
     private static URL = `${Constants.apiUrl}recommendation`;
 
-    public static getRecommendation(points:UserPoints): Promise<AxiosResponse<IRecommendation[]>> {
-        return axios.post(this.URL, points);
+    public static get(points: UserPoints): Promise<AxiosResponse<IRecommendation[]>> {
+        return axios.get(this.URL, { params: {points}});
     }
 }

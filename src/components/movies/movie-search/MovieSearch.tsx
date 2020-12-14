@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Col, Form, FormGroup, Input, Jumbotron, Media, Row } from 'reactstrap';
-import { MovieData } from '../../../models/movie-data';
+import { Movie } from '../../../models/movie';
 import { MovieService } from '../../../services/movieService';
 import * as Constants from '../../../constants';
 import './MovieSearch.css'
@@ -9,9 +9,9 @@ import { DotLoader } from 'react-spinners';
 
 
 interface stateValue {
-  value: MovieData[];
+  value: Movie[];
   loading: boolean;
-  allData: MovieData[];
+  allData: Movie[];
   selectedId: number;
   searchWord: string;
 }
@@ -47,7 +47,7 @@ export default class MovieSearch extends Component {
 
   async loadData() {
 
-    const movies: MovieData[] = (await MovieService.getMovieData()).data;
+    const movies: Movie[] = (await MovieService.getAll()).data;
 
     const stateValue: stateValue = {
       ...this.state,
@@ -73,7 +73,7 @@ export default class MovieSearch extends Component {
     
     this.setState({...this.state, loading: true});
 
-    var filtered: MovieData[];
+    var filtered: Movie[];
     const re = new RegExp(this.state.searchWord, 'i');
 
     filtered = this.state.allData.filter(movie => Object.values(movie).some(val => typeof val === "string" && val.match(re)));
@@ -133,7 +133,7 @@ export default class MovieSearch extends Component {
         <div>
           <Media key={movie.idMovie}>
             <Media left top href={"movieinfo/" + movie.idMovie}>
-              <img className="photo" src={MovieService.getImageUrl(movie.imageMongoId)} alt="new" />
+              <img className="photo" src={movie.image.url} alt="new" />
             </Media>
             <Media body>
               <Media heading>

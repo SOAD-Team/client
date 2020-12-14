@@ -1,6 +1,6 @@
-import { IData } from "./data";
+import { KeyValuePair } from "./keyValuePair";
 
-export class Style implements IData{
-    idStyle: number;
+export class Style implements KeyValuePair{
+    id: number;
     name: string;
 }
