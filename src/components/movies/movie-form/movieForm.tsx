@@ -44,9 +44,9 @@ export default class MovieForm extends Component {
   }
 
   async loadData() {
-    const genres: Genre[] = (await GenreService.getAll()).data;
+    const genres: Genre[] = (await GenreService.Singleton().getAll()).data;
     const languages: Language[] = (await LanguageService.Singleton().getAll()).data;
-    const styles: Style[] = (await StyleService.getAll()).data;
+    const styles: Style[] = (await StyleService.Singleton().getAll()).data;
 
     this.genres = genres.map(genre => {
       const data = { value: genre, label: genre.name };
@@ -144,10 +144,10 @@ export default class MovieForm extends Component {
       const movie: Movie = this.state.value;
       console.log(movie.image.url);
       if (Validators.validateMovie(movie)) {
-        const image: Image = (await ImageService.post(this.state.image)).data;
+        const image: Image = (await ImageService.Singleton().postImage(this.state.image)).data;
         console.log(image);
         movie.image = image;
-        MovieService.post(movie).then(res => {
+        MovieService.Singleton().post(movie).then(res => {
           console.log(res.data);
           window.location.href = "/updateMovie";
         });

@@ -29,15 +29,9 @@ export default class MovieUpdater extends MovieForm {
     async loadData() {
         super.loadData();
 
-        const movieValue: Movie = (await MovieService.get(this.id)).data;
+        const movieValue: Movie = (await MovieService.Singleton().get(this.id)).data;
 
         console.log(movieValue);
-
-        // movieValue.image =
-        // {
-        //     ...movieValue.image,
-        //     url: MovieService.getImageUrl(movieValue.image.id)
-        // }
 
         this.initialImageId = movieValue.image.id;
         this.initialMovieId = movieValue.idMovieData;
@@ -53,12 +47,12 @@ export default class MovieUpdater extends MovieForm {
                 movie.registerDate = new Date();
                 if (Validators.validateMovie(movie)) {
                     if (this.state.value.image.id !== this.initialImageId) {
-                        const image: Image = (await ImageService.post(this.state.image)).data;
+                        const image: Image = (await ImageService.Singleton().postImage(this.state.image)).data;
                         console.log(image);
                         movie.image = image;
                     }
 
-                    MovieService.put(movie).then(res => {
+                    MovieService.Singleton().put(movie).then(res => {
                         console.log(res.data);
                         window.location.href = "/updateMovie";
                     });

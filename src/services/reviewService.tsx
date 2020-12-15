@@ -1,15 +1,21 @@
-import * as Constants from '../constants'
-import axios, { AxiosResponse } from 'axios';
 import { IReview } from '../models/review';
+import { Service } from './service';
+import axios, { AxiosResponse } from 'axios';
 
-export class ReviewService {
-    private static URL = `${Constants.apiUrl}review`;
-    
-    public static async post(review: IReview): Promise<AxiosResponse<IReview>> {
-        return axios.post(this.URL, review);
+export class ReviewService extends Service<IReview>{
+    static instance: ReviewService = null;
+
+    private constructor(){
+        super('review');
     }
 
-    public static async get(id: number): Promise<AxiosResponse<IReview[]>> {
-        return axios.get(this.URL + id);
+    public static Singleton() : ReviewService{
+        if(!this.instance)
+            this.instance = new ReviewService();
+        return this.instance;
+    }
+
+    public async getByMovie(id: number): Promise<AxiosResponse<IReview[]>>{
+        return axios.get(`${this.url}/${id}`);
     }
 }

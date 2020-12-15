@@ -43,7 +43,7 @@ export default class Register extends Component {
 
   async handleSignUp(event) {    
     try{
-      const data = (await UserService.post(this.state.value)).data;
+      const data = (await UserService.Singleton().post(this.state.value)).data;
       alert(`User ${data.email} registered`);
       
     }

@@ -6,10 +6,9 @@ export abstract class Service<T>{
 
     protected constructor(name: string){
         this.url = `${Constants.apiUrl}${(name)}`;
-        console.log(this.url);
     }
     public async get(id: number | string): Promise<AxiosResponse<T>>{
-        return axios.get(`${this.url}${id}`);
+        return axios.get(`${this.url}/${id}`);
     }
     public async getAll(): Promise<AxiosResponse<T[]>>{
         return axios.get(this.url);

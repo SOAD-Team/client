@@ -1,15 +1,16 @@
-import * as Constants from '../constants'
 import { User } from "../models/user";
-import axios, { AxiosResponse } from 'axios';
+import { Service } from './service';
 
-export class UserService {
-  private static URL = `${Constants.apiUrl}user`;
+export class UserService extends Service<User>{
+  static instance: UserService = null;
 
-  public static async put(user: User): Promise<AxiosResponse<User>> {
-    return axios.put(this.URL, user);
+  private constructor(){
+      super('review');
   }
 
-  public static async post(user: User): Promise<AxiosResponse<User>> {
-    return axios.post(this.URL, user);
+  public static Singleton() : UserService{
+      if(!this.instance)
+          this.instance = new UserService();
+      return this.instance;
   }
 }

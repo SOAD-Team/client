@@ -1,11 +1,16 @@
-import axios, { AxiosResponse } from 'axios';
 import { Genre } from "../models/genre";
-import * as Constants from '../constants';
+import { Service } from './service';
 
-export class GenreService {
-    private static URL = `${Constants.apiUrl}genre`;
+export class GenreService extends Service<Genre>{
+    private static instance: GenreService = null;
 
-    public static async getAll(): Promise<AxiosResponse<Genre[]>> {
-        return axios.get(this.URL);
+    private constructor(){
+        super('genre');
+    }
+
+    public static Singleton() : GenreService{
+        if(!this.instance)
+            this.instance = new GenreService();
+        return this.instance;
     }
 }

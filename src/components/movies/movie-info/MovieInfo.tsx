@@ -46,35 +46,23 @@ export default class MovieInfo extends Component {
   }
 
   componentDidMount() {
-    console.log(this.state.id);
     this.loadData();
   }
 
   async loadData() {
-    const movie: Movie = (await MovieService.get(this.state.id)).data;
-
-    // const popularity: number = (await MovieService.getMoviePopularity(this.state.id)).data;
-
-    // const score: number = (await MovieService.getMovieScore(this.state.id)).data;
-
-    const reviews: IReview[] = (await ReviewService.get(this.state.id)).data;
-
-    console.log(reviews);
+    const movie: Movie = (await MovieService.Singleton().get(this.state.id)).data;
+    console.log(movie);
+    const reviews: IReview[] = (await ReviewService.Singleton().getByMovie(this.state.id)).data;
 
     var langNames: string[] = [];
     var genNames: string[] = [];
 
-    for (let movieLang of movie.languages) {
-      if (movieLang != null) {
-        langNames.push(movieLang.name);
-      }
-    }
-
-    for (let movieGen of movie.genres) {
-      if (movieGen != null) {
-        genNames.push(movieGen.name);
-      }
-    }
+    movie.languages.forEach(lang => 
+      langNames.push(lang.name)
+    );
+    movie.genres.forEach(gen => 
+      genNames.push(gen.name)
+    )
 
     const stateValue: stateValue = {
       ...this.state,
@@ -133,7 +121,7 @@ export default class MovieInfo extends Component {
 
     var rev : IReview = {idReview : -1, idMovie : this.state.id, score: this.state.note, comment: this.state.comment};
 
-    ReviewService.post(rev);
+    ReviewService.Singleton().post(rev);
 
   }
 
@@ -220,7 +208,10 @@ export default class MovieInfo extends Component {
                   <br></br>
                 </Media>
                 <Media body>
-                  Popularity: {this.state.value.styles}
+                  Style: {this.state.value.styles[0].name}
+                </Media>
+                <Media body>
+                  Popularity: {this.state.value.popularity}
                 </Media>
               </Media>
             </Media>

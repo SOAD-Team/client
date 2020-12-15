@@ -1,12 +1,22 @@
-import * as Constants from '../constants'
 import axios, { AxiosResponse } from 'axios';
 import { IRecommendation } from '../models/recommendation';
 import { UserPoints } from '../models/userPoints';
+import { Service } from './service';
 
-export class RecommendationsService {
-    private static URL = `${Constants.apiUrl}recommendation`;
+export class RecommendationService extends Service<IRecommendation>{
+    static instance: RecommendationService = null;
 
-    public static get(points: UserPoints): Promise<AxiosResponse<IRecommendation[]>> {
-        return axios.get(this.URL, { params: {points}});
+    private constructor(){
+        super('recommendation');
     }
+
+    public static Singleton() : RecommendationService{
+        if(!this.instance)
+            this.instance = new RecommendationService();
+        return this.instance;
+    }
+
+    public async getAllRecommendations(points: UserPoints): Promise<AxiosResponse<IRecommendation[]>>{
+        return axios.put(this.url, points)
+    }    
 }

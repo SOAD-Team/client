@@ -32,7 +32,7 @@ export default class MovieUpdaterList extends Component {
     }
 
     async loadData() {
-        const movies: Movie[] = (await MovieService.getFromUser(User.local.idUser)).data;
+        const movies: Movie[] = (await MovieService.Singleton().getFromUser(User.local.idUser)).data;
         this.setState({ ...this.state, value: movies, loading: false });
     }
 

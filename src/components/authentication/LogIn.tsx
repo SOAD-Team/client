@@ -35,7 +35,7 @@ export class LogIn extends Component {
         const user : User = User.Empty;
         user.email = this.state.form.Email;
         user.password = this.state.form.Password;
-        User.local = (await (UserService.put(user))).data;
+        User.local = (await (UserService.Singleton().put(user))).data;
       console.log(User.local);
       if(User.local){
           const user: User = User.local;

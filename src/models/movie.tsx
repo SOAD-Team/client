@@ -11,7 +11,6 @@ export class Movie {
         public idMovie?: number,
         public registerDate: Date = new Date(),
         public name: string = '',
-        public title: string = '',
         public year: number = 1900,
         public genres: Genre[] = [],
         public languages: Language[] = [],

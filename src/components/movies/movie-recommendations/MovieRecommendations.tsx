@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { RecommendationsService } from '../../../services/recomendationService'
+import { RecommendationService } from '../../../services/recomendationService'
 import { Row, Col, Form, FormGroup, Label, Input, Button, Jumbotron, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Media } from 'reactstrap';
 import { Validators } from '../../../helpers/validators';
 import { Genre } from '../../../models/genre';
@@ -44,7 +44,7 @@ export default class MovieRecommendation extends Component {
   }
 
   async loadData() {
-    this.genres = (await GenreService.getAll()).data;
+    this.genres = (await GenreService.Singleton().getAll()).data;
     const state: IValue = {
       ...this.state,
       loading: false
@@ -73,7 +73,7 @@ export default class MovieRecommendation extends Component {
     try {
       const points: UserPoints = this.state.value;
       if (Validators.validateRecommendations(points)) {
-        this.responses = (await RecommendationsService.get(points)).data;
+        this.responses = (await RecommendationService.Singleton().getAllRecommendations(points)).data;
         this.setState({...this.state, movieLoading: true});
         console.log(this.responses);
       }

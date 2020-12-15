@@ -1,11 +1,16 @@
-import axios, { AxiosResponse } from 'axios';
-import * as Constants from '../constants';
 import { Style } from '../models/style';
+import { Service } from './service';
 
-export class StyleService{
-    private static URL = `${Constants.apiUrl}style`;
+export class StyleService extends Service<Style>{
+    static instance: StyleService = null;
 
-    public static async getAll(): Promise<AxiosResponse<Style[]>> {
-        return axios.get(this.URL);
+    private constructor(){
+        super('style');
+    }
+
+    public static Singleton() : StyleService{
+        if(!this.instance)
+            this.instance = new StyleService();
+        return this.instance;
     }
 }
