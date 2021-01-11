@@ -1,4 +1,4 @@
-import { MovieData } from '../../../models/movie-data';
+import { Movie } from '../../../models/movie';
 import MovieForm from '../movie-form/movieForm';
 export default class MovieCreator extends MovieForm{
 
@@ -8,8 +8,9 @@ export default class MovieCreator extends MovieForm{
     this.title = "Create a Movie!";
 
     this.state = {
-      value: MovieData.Empty,
+      value: Movie.Empty,
       loading: true,
+      image: new FormData()
     };
   }
 

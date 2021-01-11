@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { RecommendationsService } from '../../../services/recomendationService'
+import { RecommendationService } from '../../../services/recomendationService'
 import { Row, Col, Form, FormGroup, Label, Input, Button, Jumbotron, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Media } from 'reactstrap';
 import { Validators } from '../../../helpers/validators';
 import { Genre } from '../../../models/genre';
@@ -7,8 +7,8 @@ import { DotLoader } from 'react-spinners';
 import { NavMenu } from '../../core/navMenu/NavMenu';
 import './MovieRecommendation.css';
 import { UserPoints } from '../../../models/userPoints';
-import { MovieService } from '../../../services/movieService'
 import { IRecommendation } from '../../../models/recommendation';
+import { GenreService } from '../../../services/genreService';
 
 interface IValue {
   value: UserPoints, loading: boolean, movieLoading : boolean
@@ -44,7 +44,7 @@ export default class MovieRecommendation extends Component {
   }
 
   async loadData() {
-    this.genres = (await MovieService.getGenres()).data;
+    this.genres = (await GenreService.Singleton().getAll()).data;
     const state: IValue = {
       ...this.state,
       loading: false
@@ -73,10 +73,7 @@ export default class MovieRecommendation extends Component {
     try {
       const points: UserPoints = this.state.value;
       if (Validators.validateRecommendations(points)) {
-        this.responses = (await RecommendationsService.getRecommendation(points)).data;
-        this.responses.forEach(element=> {
-          element.movie.image.url = MovieService.getImageUrl(element.movie.image.id);
-        });
+        this.responses = (await RecommendationService.Singleton().getAllRecommendations(points)).data;
         this.setState({...this.state, movieLoading: true});
         console.log(this.responses);
       }
@@ -157,7 +154,7 @@ export default class MovieRecommendation extends Component {
               <FormGroup>
                 <Label>Genre:</Label>
                 <UncontrolledDropdown>
-                  <DropdownToggle caret>
+                  <DropdownToggle>
                     {(this.state.value.genre == null) ? <>Select Genre</> : <>{this.state.value.genre.name}</>}
                   </DropdownToggle>
                   <DropdownMenu modifiers={{

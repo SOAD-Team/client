@@ -1,15 +1,17 @@
-import { MovieData } from '../../../models/movie-data';
+import { Movie } from '../../../models/movie';
 import { MovieService } from '../../../services/movieService'
 import * as Constants from '../../../constants';
 import MovieForm, { IValue }from '../movie-form/movieForm';
 import { Validators } from '../../../helpers/validators';
 import { Image } from '../../../models/image';
+import { ImageService } from '../../../services/imageService';
 export default class MovieUpdater extends MovieForm {
 
     id: number;
     URL: string = `${Constants.apiUrl}movie`;
     initialImageId: string;
     initialMovieId: number;
+    requiresImage:boolean = false;
 
     constructor(props) {
         super(props);
@@ -18,26 +20,18 @@ export default class MovieUpdater extends MovieForm {
         this.id = props.match.params.id;
 
         this.state = {
-            value: MovieData.Empty,
+            value: Movie.Empty,
             loading: true,
+            image: new FormData()
         };
     }
 
     async loadData() {
         super.loadData();
 
-        const fd: FormData = new FormData();
-
-        const movieValue: MovieData = (await MovieService.getMovieById(this.id)).data;
+        const movieValue: Movie = (await MovieService.Singleton().get(this.id)).data;
 
         console.log(movieValue);
-
-        movieValue.image =
-        {
-            ...movieValue.image,
-            objectImage: fd,
-            url: MovieService.getImageUrl(movieValue.image.id)
-        }
 
         this.initialImageId = movieValue.image.id;
         this.initialMovieId = movieValue.idMovieData;
@@ -48,18 +42,17 @@ export default class MovieUpdater extends MovieForm {
     handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const movie: MovieData = this.state.value;
+            const movie: Movie = this.state.value;
             if (movie.idMovieData !== this.initialMovieId) {
                 movie.registerDate = new Date();
                 if (Validators.validateMovie(movie)) {
-                    movie.imageMongoId = this.initialImageId.toString();
                     if (this.state.value.image.id !== this.initialImageId) {
-                        const image: Image = (await MovieService.createImage(movie.image.objectImage)).data;
+                        const image: Image = (await ImageService.Singleton().postImage(this.state.image)).data;
                         console.log(image);
                         movie.image = image;
                     }
 
-                    MovieService.updateMovieById(movie).then(res => {
+                    MovieService.Singleton().put(movie).then(res => {
                         console.log(res.data);
                         window.location.href = "/updateMovie";
                     });

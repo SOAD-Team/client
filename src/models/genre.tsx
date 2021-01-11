@@ -1,6 +1,6 @@
-import { IData } from "./data";
+import { KeyValuePair } from "./keyValuePair";
 
-export class Genre implements IData{
-    idGenre: number;
+export class Genre implements KeyValuePair{
+    id: number;
     name: string;
 }

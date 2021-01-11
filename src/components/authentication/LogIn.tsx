@@ -4,7 +4,7 @@ import { InitMenu } from '../core/initMenu/InitMenu';
 import Carousel1 from '../core/carousel/Carousel';
 import '../core/navMenu/NavMenu.css';
 import Cookies from 'universal-cookie'
-import { RegisterService } from '../../services/registerService';
+import { UserService } from '../../services/userService';
 import { User } from '../../models/user';
 
 const cookies = new Cookies();
@@ -32,7 +32,10 @@ export class LogIn extends Component {
 
     logIn=async()=>{
       try {
-        User.local = (await (RegisterService.logIn(this.state.form.Email, this.state.form.Password))).data;
+        const user : User = User.Empty;
+        user.email = this.state.form.Email;
+        user.password = this.state.form.Password;
+        User.local = (await (UserService.Singleton().put(user))).data;
       console.log(User.local);
       if(User.local){
           const user: User = User.local;

@@ -3,15 +3,14 @@ import { DotLoader } from "react-spinners";
 import { Button, Jumbotron, Table } from "reactstrap";
 import { Genre } from "../../../models/genre";
 import { Language } from "../../../models/language";
-import { MovieData } from "../../../models/movie-data";
+import { Movie } from "../../../models/movie";
 import { Style } from "../../../models/style";
 import { User } from "../../../models/user";
 import { MovieService } from "../../../services/movieService";
 import { NavMenu } from "../../core/navMenu/NavMenu";
-import { IData } from "../../shared/IData";
 
 interface IValue {
-    value: IData[], loading: boolean
+    value: Movie[], loading: boolean
 }
 export default class MovieUpdaterList extends Component {
 
@@ -33,22 +32,8 @@ export default class MovieUpdaterList extends Component {
     }
 
     async loadData() {
-        const data: IData[] = [];
-        const movies: MovieData[] = (await MovieService.getMoviesFromUser(User.local.idUser)).data;
-
-        for (const movie of movies) {
-            const score: number = (await MovieService.getMovieScore(movie.idMovie)).data;
-            const popularity: number = (await MovieService.getMoviePopularity(movie.idMovie)).data;
-            //get image
-            const temp: IData = {
-                value: movie,
-                score: score,
-                popularity: popularity
-            }
-            data.push(temp);
-        }
-
-        this.setState({ ...this.state, value: data, loading: false });
+        const movies: Movie[] = (await MovieService.Singleton().getFromUser(User.local.idUser)).data;
+        this.setState({ ...this.state, value: movies, loading: false });
     }
 
     editMovieInfo(e, movie): any {
@@ -98,43 +83,43 @@ export default class MovieUpdaterList extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.value.map((movie: IData) =>
+                            {this.state.value.map((movie: Movie) =>
 
-                                <tr key={movie.value.idMovie} >
-                                    <td>{movie.value.name}</td>
-                                    <td>{movie.value.year}</td>
-                                    <td>{movie.value.director}</td>
+                                <tr key={movie.idMovie} >
+                                    <td>{movie.name}</td>
+                                    <td>{movie.year}</td>
+                                    <td>{movie.director}</td>
                                     <td>
-                                        {movie.value.genres.map((genre: Genre) => <>{
+                                        {movie.genres.map((genre: Genre) => <>{
                                             genre == null ?
                                                 <> </> :
-                                                <li key={genre.idGenre}>
+                                                <li key={genre.id}>
                                                     {genre.name}
                                                 </li>
                                         }</>
                                         )}
                                     </td>
                                     <td>
-                                        {movie.value.languages.map((lang: Language) => <>{
+                                        {movie.languages.map((lang: Language) => <>{
                                             lang == null ?
                                                 <> </> :
-                                                <li key={lang.idLanguage}>
+                                                <li key={lang.id}>
                                                     {lang.name}
                                                 </li>
                                         }</>
                                         )}
                                     </td>
                                     <td>
-                                        {movie.value.styles.map((sty: Style) => <>{
+                                        {movie.styles.map((sty: Style) => <>{
                                             sty == null ?
                                                 <> </> :
-                                                <li key={sty.idStyle}>
+                                                <li key={sty.id}>
                                                     {sty.name}
                                                 </li>
                                         }</>)}
                                     </td>
                                     <td>{
-                                        movie.value.platFav ?
+                                        movie.platFav ?
                                             <div>
                                                 {"Yes"}
                                             </div> :
@@ -142,12 +127,12 @@ export default class MovieUpdaterList extends Component {
                                                 {"No"}
                                             </div>
                                     }</td>
-                                    <td>{movie.score}</td>
+                                    <td>{movie.communityScore}</td>
                                     <td>{movie.popularity}</td>
-                                    <td>{movie.value.metaScore}</td>
-                                    <td>{movie.value.imdb}</td>
+                                    <td>{movie.metaScore}</td>
+                                    <td>{movie.imdb}</td>
                                     <td>
-                                        <Button href={`movieupdate/${movie.value.idMovie}`} onClick={e => this.editMovieInfo(e, movie.value)}>Edit</Button>
+                                        <Button href={`movieupdate/${movie.idMovie}`} onClick={e => this.editMovieInfo(e, movie)}>Edit</Button>
                                     </td>
                                 </tr>
                             )}
