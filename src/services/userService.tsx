@@ -5,7 +5,7 @@ export class UserService extends Service<User>{
   static instance: UserService = null;
 
   private constructor(){
-      super('review');
+      super('user');
   }
 
   public static Singleton() : UserService{
