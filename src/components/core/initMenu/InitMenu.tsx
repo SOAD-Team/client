@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import React, { Component, useState } from 'react';
+import { Nav, Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import '../navMenu/NavMenu.css';
 import mymovie from '../../../assets/img/mymovie.png'
@@ -10,7 +10,7 @@ export class InitMenu extends Component {
 
     constructor (props: any) {
         super(props);
-    
+
         this.toggleInitbar = this.toggleInitbar.bind(this);
         this.state = {
           collapsed: true
@@ -23,6 +23,7 @@ export class InitMenu extends Component {
         });
       }
 
+      
 
       render () {
         return (
@@ -34,12 +35,12 @@ export class InitMenu extends Component {
                     </NavbarBrand>
                 <NavbarToggler onClick={this.toggleInitbar} className="mr-2" />
                 <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
-                  <ul className="navbar-nav flex-grow">
+                  <ul className="navbar-nav flex-grow nav nav-tabs">
                     <NavItem>
-                      <NavLink tag={Link} className="text-white" to="/">Log In</NavLink>
+                      <NavLink tag={Link} className="text-white bg-dark active" to="/">Log In</NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink tag={Link} className="text-white" to="/register">Sing Up</NavLink>
+                      <NavLink tag={Link} className="text-white bg-dark active" to="/register">Sing Up</NavLink>
                     </NavItem>
                   </ul>
                 </Collapse>
@@ -48,5 +49,5 @@ export class InitMenu extends Component {
           </header>
         );
       }
-
+    
 }

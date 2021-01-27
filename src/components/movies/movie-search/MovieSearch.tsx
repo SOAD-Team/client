@@ -106,10 +106,15 @@ export default class MovieSearch extends Component {
       <div>
         <NavMenu />
         <Jumbotron>
-          <h1 id="formLabel">Search for a movie!</h1>
+        <div className="row">
+        <div className="col-5"></div>
+          <h2 id="formLabel">Search for a movie!</h2>
+          <div className="col-5"></div>
+          </div>
           <br></br>
           <Form>
             <Row form>
+            <div className="col-3"></div>
               <Col md={6}>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   <Input
@@ -144,6 +149,7 @@ export default class MovieSearch extends Component {
               </Media>
               <br></br>
             </div>)}
+            
         </Jumbotron>
       </div>)
   }

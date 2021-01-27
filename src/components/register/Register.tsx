@@ -91,7 +91,11 @@ export default class Register extends Component {
         <InitMenu />
 
       <Jumbotron>
-        <h1 id="formLabel">Create your Account!</h1>
+      <div className="row">
+      <div className="col-4"></div>
+      <div className="col-8">
+        <h2 id="formLabel">Create your Account!</h2>
+      
         <br></br>
         <br></br>
         <Form>
@@ -210,8 +214,16 @@ export default class Register extends Component {
               </FormGroup>
             </Col>
           </Row>
-          <Button onClick={this.handleSignUp} disabled={!this.state.passMatch}>Submit</Button>
+          <div className="row">
+      <div className="col-1"></div>
+      <div className="col-1"></div>
+          <Button className="btn btn-primary btn-lg" color="info" onClick={this.handleSignUp} disabled={!this.state.passMatch}>Submit</Button>
+          <div className="col-1"></div>
+          </div>
         </Form>
+        </div> 
+        <div className="col-2"></div>
+      </div> 
       </Jumbotron>
       </div>
     );
