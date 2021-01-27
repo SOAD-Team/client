@@ -39,7 +39,7 @@ export default class MovieForm extends Component {
     };
   }
 
-  componentDidMount() {
+ componentDidMount() {
     this.loadData();
   }
 

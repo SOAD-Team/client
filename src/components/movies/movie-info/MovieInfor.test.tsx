@@ -1,32 +1,31 @@
 import React from 'react';
-import MovieCreator from './MovieCreator';
+import MovieInfo from './MovieInfo';
 import {shallow} from 'enzyme';
 import { MovieService } from '../../../services/movieService';
-import { StyleService } from '../../../services/styleService';
-import { LanguageService } from '../../../services/languageService';
-import { GenreService } from '../../../services/genreService';
 import { AxiosResponse } from 'axios';
 import { Style } from '../../../models/style';
 import { Language } from '../../../models/language';
 import { Genre } from '../../../models/genre';
-import { Service } from '../../../services/service';
+import { Movie } from '../../../models/movie';
 
-describe('MovieCreator', () => {
+describe('MovieInfo', () => {
 
-    let component: MovieCreator;
+    let component: MovieInfo;
 
     beforeEach(() => {
-        component = shallow(<MovieCreator/>);
+        component = shallow(<MovieInfo/>);
     });
 
     it('should create', () => {
-        spyOn(Service.prototype, 'getAll').and.callFake(() => {
-            let res: AxiosResponse;
+        spyOn(MovieService, 'Singleton').and.callFake(() => {
+            let res: AxiosResponse<Movie[]>;
             res.data = [];
             return new Promise((resolve)=> {
                 resolve(res);
             })
         })
+
+        
         expect(component).toBeTruthy();
     });
 })
