@@ -21,21 +21,7 @@ describe('MovieCreator', () => {
 
     it('should create', () => {
         spyOn(Service.prototype, 'getAll').and.callFake(() => {
-            let res: AxiosResponse<Style[]>;
-            res.data = [];
-            return new Promise((resolve)=> {
-                resolve(res);
-            })
-        })
-        spyOn(Service.prototype, 'getAll').and.callFake(() => {
-            let res: AxiosResponse<Language[]>;
-            res.data = [];
-            return new Promise((resolve)=> {
-                resolve(res);
-            })
-        })
-        spyOn(Service.prototype, 'getAll').and.callFake(() => {
-            let res: AxiosResponse<Genre[]>;
+            let res: AxiosResponse;
             res.data = [];
             return new Promise((resolve)=> {
                 resolve(res);
