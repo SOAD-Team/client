@@ -63,7 +63,8 @@
     "enzyme-adapter-react-16": "^1.15.5",
     "jasmine": "^3.6.3",
     "jasmine-enzyme": "^7.1.2",
-    "jsdom": "^16.4.0"
+    "jsdom": "^16.4.0",
+    "react-test-renderer": "^15.7.0"
   },
   "babel": {
     "presets": [
