@@ -64,6 +64,13 @@ export class LogIn extends Component {
                 </div>
                 <div className="col-6">
               <Form className="left">
+              <div className="row">
+                <div className="center col-md-3 mb-3"></div>
+                <div className="center col-md-6 mb-3">
+              <Label className="aligne-center"> <h2>Log In! </h2> </Label>
+              </div> 
+                <div className="center col-md-3 mb-3"></div> 
+                </div> 
                 <FormGroup>
                   <Label for="exampleEmail"> User </Label>
                   <Input type="email" name="Email" id="exampleEmail" placeholder="example@gmail.com" onChange={this.handleChange}/>
@@ -81,7 +88,7 @@ export class LogIn extends Component {
                 <div className="center col-md-3 mb-3"></div>
                 <div className="center col-md-6 mb-3">
                 
-                <Button className="btn btn-primary btn-lg btn-block" color="primary" onClick={this.logIn}>Log In</Button>   
+                <Button className="btn btn-primary btn-lg btn-block" color="info" onClick={this.logIn}>Log In</Button>   
      
                 </div> 
                 <div className="center col-md-3 mb-3"></div> 

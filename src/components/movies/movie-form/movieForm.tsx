@@ -174,7 +174,11 @@ export default class MovieForm extends Component {
     return (
       <div>
         <NavMenu/>
-          <h1 id="formLabel" >{this.title}</h1>
+        <div className="row">
+      <div className="col-5"></div>
+          <h2 id="formLabel" >{this.title}</h2>
+          <div className="col-5"></div>
+          </div>
         {contents}
       </div>
     )
@@ -289,9 +293,12 @@ export default class MovieForm extends Component {
             </Col>
           </Row>
 
-
-          <Button type="submit" >Submit</Button>
-          <Button type="reset" href="/mvRecommendations" color="danger">Cancel</Button>
+          <div className="row">
+      <div className="col-5"></div>
+          <Button className="btn btn-primary btn-lg" color="info" type="submit" >Submit</Button>
+          <Button className="btn btn-primary btn-lg" type="reset" href="/mvRecommendations" color="danger">Cancel</Button>
+      <div className="col-3"></div>
+      </div>
         </Form>
       </Jumbotron>);
   }
